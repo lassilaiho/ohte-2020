@@ -5,7 +5,7 @@
 Tässä on ensimmäisen viikon laskarien vaatimaa **lihavoitua** ja *kursivoitua*
 tekstiä.
 
-Uusi muutos.
+Uusi muutos. Toinen muutos.
 
 [gitlog.txt](laskarit/viikko1/gitlog.txt)
 
