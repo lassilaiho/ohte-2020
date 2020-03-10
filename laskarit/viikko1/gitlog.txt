@@ -1,0 +1,113 @@
+commit 7442eca0daff8788bd2e192d2f551de812bfd06a
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 19:01:13 2020 +0200
+
+    poisto ja uudelleennimeäminen
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit fcaa9941dee8e93e5d9d2bd2f0963f165a887d28
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:59:29 2020 +0200
+
+    lisää tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 6d026e0598369af06c2405d56552f4aef28b8194
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:57:16 2020 +0200
+
+    lisää muutoksia
+
+ eka.txt    | 8 +-------
+ kolmas.txt | 5 ++++-
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+commit 4031722983e278093c7add1a553b0dba9d64591c
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:56:03 2020 +0200
+
+    muuta nimeä
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit a0d701d9dd8f570dd880dc62693f04ddb6bead4e
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:55:13 2020 +0200
+
+    poista toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 8a886cf4c83f8885f71ac753fc517a82f981a2ab
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:54:01 2020 +0200
+
+    poisto ja lisäys
+
+ tiedosto.txt | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
+
+commit 8736b52ba4557076a44d9bdc61f98be2a5b1102d
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:52:40 2020 +0200
+
+    lisää paljon tekstiä
+
+ tiedosto.txt | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+commit 48ba7f2b5ec7e0d8d9534d021e89d12bf2706806
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:49:18 2020 +0200
+
+    lisää stuff
+
+ stuff/tiedosto | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 55f820ee54201d7bce9ca356d9b255350817bfd9
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:48:40 2020 +0200
+
+    tee uusia muutoksia
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit d9105e751ea28ab41f05cdf90a6a773b940fc159
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:48:14 2020 +0200
+
+    lisää kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 0fb41b73ea886b435a9e06460cd9e519994ac80c
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:46:08 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit d1831c643e48cf909c084092332121014d5a96aa
+Author: Lassi Laiho <lassi.laiho0@gmail.com>
+Date:   Tue Mar 10 18:44:58 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
