@@ -14,5 +14,7 @@ public enum LexemeType {
     /**
      * Value is of type {@link Operator}.
      */
-    OPERATOR, LEFT_PAREN, RIGHT_PAREN,
+    OPERATOR,
+    LEFT_PAREN,
+    RIGHT_PAREN,
 }

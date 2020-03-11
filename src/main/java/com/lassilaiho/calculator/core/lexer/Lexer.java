@@ -22,7 +22,7 @@ public final class Lexer {
     /**
      * Performs lexical analysis on the reader passed to the constructor.
      * 
-     * @return a list of lexemes
+     * @return                a list of lexemes
      * 
      * @throws IOException    if an error occurs during reading
      * @throws LexerException if en error occurs during lexing
