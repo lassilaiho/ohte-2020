@@ -23,6 +23,11 @@ public class BinaryExpression implements Expression {
     }
 
     @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public String toString() {
         return "(" + left.toString() + operator.toString() + right.toString() + ")";
     }

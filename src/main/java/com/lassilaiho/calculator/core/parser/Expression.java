@@ -5,4 +5,10 @@ package com.lassilaiho.calculator.core.parser;
  * expression.
  */
 public interface Expression {
+    /**
+     * Calls the visit method of visitor corresponding to the class implementing this interface.
+     *
+     * @param visitor visitor
+     */
+    void accept(ExpressionVisitor visitor);
 }
