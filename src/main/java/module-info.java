@@ -8,4 +8,5 @@ module com.lassilaiho.calculator {
     exports com.lassilaiho.calculator.ui;
     exports com.lassilaiho.calculator.core;
     exports com.lassilaiho.calculator.core.lexer;
+    exports com.lassilaiho.calculator.core.parser;
 }
