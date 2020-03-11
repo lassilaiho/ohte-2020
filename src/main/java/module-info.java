@@ -6,4 +6,6 @@ module com.lassilaiho.calculator {
     opens com.lassilaiho.calculator.ui to javafx.fxml;
 
     exports com.lassilaiho.calculator.ui;
+    exports com.lassilaiho.calculator.core;
+    exports com.lassilaiho.calculator.core.lexer;
 }
