@@ -1,6 +1,5 @@
 package com.lassilaiho.calculator.ui;
 
-import java.io.StringReader;
 import com.lassilaiho.calculator.core.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,8 +22,7 @@ public class MainViewController {
     @FXML
     private void calculate() {
         try {
-            var reader = new StringReader(expression.getText());
-            var value = calculator.calculate(reader);
+            var value = calculator.calculate(expression.getText());
             result.setText(value == null ? "" : value.toString());
             error.setText("");
         } catch (CalculatorException exception) {

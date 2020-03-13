@@ -1,7 +1,7 @@
 package com.lassilaiho.calculator.core;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.StringReader;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
 import java.lang.Number;
@@ -15,12 +15,11 @@ public class Calculator {
      * 
      * @param  input               the expression to calculate
      * @return                     the value of the expression or null if input is empty
-     * @throws IOException         thrown if an error occurs when reading input
      * @throws CalculatorException thrown if an error occurs during calculation
      */
-    public Number calculate(Reader input) throws IOException, CalculatorException {
+    public Number calculate(String input) throws CalculatorException {
         try {
-            var lexer = new Lexer(input);
+            var lexer = new Lexer(new StringReader(input));
             var parser = new Parser(lexer.lex());
             var expression = parser.parseExpression();
             if (expression == null) {
@@ -31,6 +30,12 @@ public class Calculator {
             return evaluator.getValue();
         } catch (LexerException | ParserException | EvaluationException exception) {
             throw new CalculatorException(exception.getMessage(), exception);
+        } catch (IOException exception) {
+            // The only source of IOExceptions in the method is StringReader,
+            // which throws if it is read from after closing it. The reader is
+            // never closed, so this should never happen.
+            throw new RuntimeException(
+                "An IOException occurred. This is a bug in this library.", exception);
         }
     }
 }
