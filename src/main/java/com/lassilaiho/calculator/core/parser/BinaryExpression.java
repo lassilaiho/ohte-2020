@@ -1,7 +1,5 @@
 package com.lassilaiho.calculator.core.parser;
 
-import com.lassilaiho.calculator.core.Operator;
-
 /**
  * {@link BinaryExpression} is a binary expression node.
  */

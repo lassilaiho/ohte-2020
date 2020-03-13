@@ -1,7 +1,6 @@
 package com.lassilaiho.calculator.core.parser;
 
 import java.util.List;
-import com.lassilaiho.calculator.core.Operator;
 import com.lassilaiho.calculator.core.lexer.*;
 
 /**
@@ -55,13 +54,27 @@ public class Parser {
     }
 
     private Operator parseBinaryOperator(int precedence) {
-        var lexeme = peek();
-        if (lexeme.type == LexemeType.OPERATOR) {
-            var operator = (Operator) lexeme.value;
-            if (operator.precedence() == precedence) {
-                advance();
-                return operator;
-            }
+        Operator operator;
+        switch (peek().type) {
+            case PLUS:
+                operator = Operator.ADD;
+                break;
+            case MINUS:
+                operator = Operator.SUBTRACT;
+                break;
+            case ASTERISK:
+                operator = Operator.MULTIPLY;
+                break;
+            case SLASH:
+                operator = Operator.DIVIDE;
+                break;
+            default:
+                operator = null;
+                break;
+        }
+        if (operator != null && operator.precedence() == precedence) {
+            advance();
+            return operator;
         }
         return null;
     }
@@ -75,13 +88,9 @@ public class Parser {
     }
 
     private Operator parseUnaryOperator() {
-        var lexeme = peek();
-        if (lexeme.type == LexemeType.OPERATOR) {
-            var operator = (Operator) lexeme.value;
-            if (operator == Operator.SUBTRACT) {
-                advance();
-                return operator;
-            }
+        if (peek().type == LexemeType.MINUS) {
+            advance();
+            return Operator.NEGATE;
         }
         return null;
     }

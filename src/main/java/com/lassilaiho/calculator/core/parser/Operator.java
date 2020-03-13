@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.parser;
 
 /**
  * Operator is a math operator.
@@ -7,7 +7,8 @@ public enum Operator {
     ADD,
     SUBTRACT,
     MULTIPLY,
-    DIVIDE;
+    DIVIDE,
+    NEGATE;
 
     /**
      * Returns the precedence of the operator.
@@ -22,6 +23,8 @@ public enum Operator {
             case MULTIPLY:
             case DIVIDE:
                 return 2;
+            case NEGATE:
+                return 3;
             default:
                 return -1;
         }
@@ -34,7 +37,7 @@ public enum Operator {
     /**
      * The highest precedence of any operator.
      */
-    public static final int MAX_PRECEDENCE = 2;
+    public static final int MAX_PRECEDENCE = 3;
 
     @Override
     public String toString() {
@@ -42,6 +45,7 @@ public enum Operator {
             case ADD:
                 return "+";
             case SUBTRACT:
+            case NEGATE:
                 return "-";
             case MULTIPLY:
                 return "*";

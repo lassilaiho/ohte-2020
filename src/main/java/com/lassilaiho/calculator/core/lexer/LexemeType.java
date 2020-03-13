@@ -11,10 +11,10 @@ public enum LexemeType {
      * Value is of type double.
      */
     NUMBER,
-    /**
-     * Value is of type {@link Operator}.
-     */
-    OPERATOR,
+    PLUS,
+    MINUS,
+    ASTERISK,
+    SLASH,
     LEFT_PAREN,
     RIGHT_PAREN,
 }

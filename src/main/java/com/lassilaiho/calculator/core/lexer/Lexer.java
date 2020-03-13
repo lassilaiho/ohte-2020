@@ -5,7 +5,6 @@ import java.io.PushbackReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import com.lassilaiho.calculator.core.Operator;
 
 public final class Lexer {
     private final PushbackReader reader;
@@ -37,16 +36,16 @@ public final class Lexer {
             }
             switch (c) {
                 case '+':
-                    result.add(new Lexeme(LexemeType.OPERATOR, Operator.ADD));
+                    result.add(new Lexeme(LexemeType.PLUS));
                     break;
                 case '-':
-                    result.add(new Lexeme(LexemeType.OPERATOR, Operator.SUBTRACT));
+                    result.add(new Lexeme(LexemeType.MINUS));
                     break;
                 case '*':
-                    result.add(new Lexeme(LexemeType.OPERATOR, Operator.MULTIPLY));
+                    result.add(new Lexeme(LexemeType.ASTERISK));
                     break;
                 case '/':
-                    result.add(new Lexeme(LexemeType.OPERATOR, Operator.DIVIDE));
+                    result.add(new Lexeme(LexemeType.SLASH));
                     break;
                 case '(':
                     result.add(new Lexeme(LexemeType.LEFT_PAREN));

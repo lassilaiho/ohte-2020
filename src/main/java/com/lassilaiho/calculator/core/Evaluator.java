@@ -32,12 +32,11 @@ public class Evaluator implements ExpressionVisitor {
     public void visit(UnaryExpression node) {
         node.operand.accept(this);
         switch (node.operator) {
-            case SUBTRACT:
+            case NEGATE:
                 value = -value;
                 break;
             default:
-                throw new EvaluationException(
-                    "invalid unary operator: " + node.operator.toString());
+                throw new EvaluationException("invalid unary operator: " + node.operator);
         }
     }
 
@@ -62,7 +61,7 @@ public class Evaluator implements ExpressionVisitor {
                 break;
             default:
                 throw new EvaluationException(
-                    "invalid binary operator: " + node.operator.toString());
+                    "invalid binary operator: " + node.operator);
         }
     }
 }

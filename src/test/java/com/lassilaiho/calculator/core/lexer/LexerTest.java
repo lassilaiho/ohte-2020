@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import com.lassilaiho.calculator.core.Operator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -22,13 +21,13 @@ public class LexerTest {
                     "5 * (3+ 4) / 2",
                     Arrays.asList(
                         new Lexeme(LexemeType.NUMBER, 5.0),
-                        new Lexeme(LexemeType.OPERATOR, Operator.MULTIPLY),
+                        new Lexeme(LexemeType.ASTERISK),
                         new Lexeme(LexemeType.LEFT_PAREN),
                         new Lexeme(LexemeType.NUMBER, 3.0),
-                        new Lexeme(LexemeType.OPERATOR, Operator.ADD),
+                        new Lexeme(LexemeType.PLUS),
                         new Lexeme(LexemeType.NUMBER, 4.0),
                         new Lexeme(LexemeType.RIGHT_PAREN),
-                        new Lexeme(LexemeType.OPERATOR, Operator.DIVIDE),
+                        new Lexeme(LexemeType.SLASH),
                         new Lexeme(LexemeType.NUMBER, 2.0),
                         new Lexeme(LexemeType.EOF))},
                 {"", Arrays.asList(new Lexeme(LexemeType.EOF))}});
