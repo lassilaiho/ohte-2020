@@ -116,7 +116,7 @@ public class Parser {
     private void parseToken(LexemeType type) {
         if (peek().type != type) {
             throw new ParserException(
-                "expected lexeme of type " + type + "found " + peek().type);
+                "expected lexeme of type " + type + " found " + peek().type);
         }
         advance();
     }

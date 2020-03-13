@@ -61,7 +61,8 @@ public final class Lexer {
                     } else if (Character.isWhitespace(c)) {
                         continue;
                     }
-                    throw new LexerException("unexpected character: " + c);
+                    throw new LexerException(
+                        "unexpected character: " + new String(Character.toChars(c)));
             }
         }
     }
