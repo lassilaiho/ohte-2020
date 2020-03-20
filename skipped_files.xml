@@ -4,4 +4,5 @@
 
 <suppressions>
     <suppress files=".*Test\.java" checks="[a-zA-Z0-9]*" />
+    <suppress files="laskarit/.*\.java" checks="[a-zA-Z0-9]*" />
 </suppressions>
