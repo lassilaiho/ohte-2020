@@ -102,7 +102,7 @@ public class Parser {
                 throw new ParserException("unexpected end of expression");
             case NUMBER:
                 advance();
-                return new Number((double) lexeme.value);
+                return new NumberNode((double) lexeme.value);
             case LEFT_PAREN:
                 advance();
                 var subExpression = parseBinaryExpression(Operator.MIN_PRECEDENCE);

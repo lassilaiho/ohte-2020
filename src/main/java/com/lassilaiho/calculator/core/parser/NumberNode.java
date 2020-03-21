@@ -1,9 +1,9 @@
 package com.lassilaiho.calculator.core.parser;
 
 /**
- * {@link Number} is a number node.
+ * {@link NumberNode} is a number node.
  */
-public class Number implements Expression {
+public class NumberNode implements Expression {
     public final double value;
 
     /**
@@ -11,7 +11,7 @@ public class Number implements Expression {
      * 
      * @param value the value of the node
      */
-    public Number(double value) {
+    public NumberNode(double value) {
         this.value = value;
     }
 
@@ -30,9 +30,9 @@ public class Number implements Expression {
         if (other == null) {
             return false;
         }
-        if (!(other instanceof Number)) {
+        if (!(other instanceof NumberNode)) {
             return false;
         }
-        return value == ((Number) other).value;
+        return value == ((NumberNode) other).value;
     }
 }

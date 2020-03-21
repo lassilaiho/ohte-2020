@@ -5,7 +5,6 @@ import java.io.StringReader;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
 import com.lassilaiho.calculator.persistence.HistoryDao;
-import java.lang.Number;
 import java.util.Collections;
 import java.util.List;
 

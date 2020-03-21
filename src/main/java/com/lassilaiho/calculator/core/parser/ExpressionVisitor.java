@@ -9,7 +9,7 @@ public interface ExpressionVisitor {
      * 
      * @param node number node to visit
      */
-    void visit(Number node);
+    void visit(NumberNode node);
 
     /**
      * Visit a unary expression node.

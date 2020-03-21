@@ -1,7 +1,6 @@
 package com.lassilaiho.calculator.core;
 
 import com.lassilaiho.calculator.core.parser.*;
-import com.lassilaiho.calculator.core.parser.Number;
 
 /**
  * Evaluator is a visitor that evaluates {@link Expression Expressions}.
@@ -23,7 +22,7 @@ public class Evaluator implements ExpressionVisitor {
     }
 
     @Override
-    public void visit(Number node) {
+    public void visit(NumberNode node) {
         value = node.value;
 
     }
