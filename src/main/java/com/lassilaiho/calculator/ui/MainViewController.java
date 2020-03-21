@@ -1,6 +1,8 @@
 package com.lassilaiho.calculator.ui;
 
+import java.sql.SQLException;
 import com.lassilaiho.calculator.core.*;
+import com.lassilaiho.calculator.persistence.HistorySqlDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
@@ -10,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 public class MainViewController {
-    private Calculator calculator = new Calculator();
+    private Calculator calculator;
 
     @FXML
     private ScrollPane historyViewContainer;
@@ -25,12 +27,24 @@ public class MainViewController {
     private Text errorDisplay;
 
     @FXML
+    private void initialize() throws SQLException {
+        var dao = new HistorySqlDao(App.dbConnection);
+        dao.initializeDatabase();
+        calculator = new Calculator(dao);
+        for (var entry : calculator.getHistory()) {
+            addHistoryEntryRow(entry);
+        }
+        updateHistoryViewScrollPosition();
+    }
+
+    @FXML
     private void calculate() {
         try {
             var input = expressionInput.getText();
             var value = calculator.calculate(input);
             if (value != null) {
-                addToHistory(calculator.newestHistoryEntry());
+                addHistoryEntryRow(calculator.newestHistoryEntry());
+                updateHistoryViewScrollPosition();
             }
             errorDisplay.setText("");
         } catch (CalculatorException exception) {
@@ -49,12 +63,15 @@ public class MainViewController {
         alert.show();
     }
 
-    private void addToHistory(HistoryEntry entry) {
+    private void addHistoryEntryRow(HistoryEntry entry) {
         historyView.addRow(
-            calculator.getHistory().size(),
+            historyView.getRowCount(),
             new Text(entry.getExpression()),
             new Text("="),
             new Text(entry.getValue().toString()));
+    }
+
+    private void updateHistoryViewScrollPosition() {
         historyView.autosize();
         historyViewContainer.setVvalue(historyViewContainer.getVmax());
     }

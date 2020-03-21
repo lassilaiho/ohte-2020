@@ -4,33 +4,41 @@ import java.io.IOException;
 import java.io.StringReader;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
+import com.lassilaiho.calculator.persistence.HistoryDao;
 import java.lang.Number;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Calculator evaluates mathematical expressions.
  */
 public class Calculator {
-    private ArrayList<HistoryEntry> history = new ArrayList<>();
+    private HistoryDao historyDao;
 
     /**
-     * Returns a list of past calculations. The entries are ordered from oldest to newest. The returned
-     * list stays up to date when the history is modified, such as calling {@link #clearHistory}.
-     * Modifying the returned list directly is undefined behavior.
+     * Constructs a new {@link Calculator} which persists the calculation history using the passed DAO.
      * 
+     * @param historyDao DAO used to persist calculation history
+     */
+    public Calculator(HistoryDao historyDao) {
+        this.historyDao = historyDao;
+    }
+
+    /**
+     * Returns a list of past calculations. The entries are ordered from oldest to newest. Modifying the
+     * returned list is undefined behavior.
+     *
      * @return A list of history entries.
      */
     public List<HistoryEntry> getHistory() {
-        return history;
+        return Collections.unmodifiableList(historyDao.getAllEntries());
     }
 
     /**
      * Removes all history entries.
      */
     public void clearHistory() {
-        history.clear();
-        history.trimToSize();
+        historyDao.removeAllEntries();
     }
 
     /**
@@ -39,10 +47,7 @@ public class Calculator {
      * @return the newest history entry or null
      */
     public HistoryEntry newestHistoryEntry() {
-        if (history.size() == 0) {
-            return null;
-        }
-        return history.get(history.size() - 1);
+        return historyDao.getNewestEntry();
     }
 
     /**
@@ -62,7 +67,7 @@ public class Calculator {
             }
             var evaluator = new Evaluator(0);
             expression.accept(evaluator);
-            history.add(new HistoryEntry(input, evaluator.getValue()));
+            historyDao.addEntry(new HistoryEntry(input, evaluator.getValue()));
             return evaluator.getValue();
         } catch (LexerException | ParserException | EvaluationException exception) {
             throw new CalculatorException(exception.getMessage(), exception);

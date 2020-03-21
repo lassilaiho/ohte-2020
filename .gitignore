@@ -29,3 +29,4 @@ hs_err_pid*
 /target
 /dist
 /laskarit/viikko2/Unicafe/target
+*.db
