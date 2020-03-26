@@ -58,6 +58,10 @@ public final class Lexer {
                         unread(c);
                         result.add(lexNumber());
                         continue;
+                    } else if (isIdentifierHead(c)) {
+                        unread(c);
+                        result.add(lexIdentifier());
+                        continue;
                     } else if (Character.isWhitespace(c)) {
                         continue;
                     }
@@ -85,9 +89,36 @@ public final class Lexer {
         }
     }
 
+    private Lexeme lexIdentifier() throws IOException {
+        var character = reader.read();
+        if (!isIdentifierHead(character)) {
+            throw new LexerException("identifier cannot begin with character: "
+                + Character.toString(character));
+        }
+        var builder = new StringBuilder();
+        builder.append(Character.toChars(character));
+        while (true) {
+            character = reader.read();
+            if (isIdentifierTail(character)) {
+                builder.append(Character.toChars(character));
+            } else {
+                unread(character);
+                return new Lexeme(LexemeType.IDENTIFIER, builder.toString());
+            }
+        }
+    }
+
     private void unread(int c) throws IOException {
         if (c != -1) {
             reader.unread(c);
         }
+    }
+
+    private boolean isIdentifierHead(int codePoint) {
+        return Character.isLetter(codePoint) || codePoint == '_';
+    }
+
+    private boolean isIdentifierTail(int codePoint) {
+        return isIdentifierHead(codePoint) || Character.isDigit(codePoint);
     }
 }

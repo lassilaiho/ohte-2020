@@ -103,6 +103,9 @@ public class Parser {
             case NUMBER:
                 advance();
                 return new NumberNode((double) lexeme.value);
+            case IDENTIFIER:
+                advance();
+                return new VariableNode((String) lexeme.value);
             case LEFT_PAREN:
                 advance();
                 var subExpression = parseBinaryExpression(Operator.MIN_PRECEDENCE);

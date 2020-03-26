@@ -6,13 +6,22 @@ import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
 import com.lassilaiho.calculator.persistence.HistoryDao;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Calculator evaluates mathematical expressions.
  */
 public class Calculator {
     private HistoryDao historyDao;
+    private Map<String, Evaluatable> namedValues;
+
+    /**
+     * An immutable map of built-in named values supported by all calculators.
+     */
+    public static final Map<String, Evaluatable> BUILTIN_NAMED_VALUES =
+        Map.of("pi", new Constant(Math.PI), "e", new Constant(Math.exp(1)));
 
     /**
      * Constructs a new {@link Calculator} which persists the calculation history using the passed DAO.
@@ -21,6 +30,23 @@ public class Calculator {
      */
     public Calculator(HistoryDao historyDao) {
         this.historyDao = historyDao;
+        namedValues = new HashMap<>(BUILTIN_NAMED_VALUES);
+    }
+
+    /**
+     * Constructs a new {@link Calculator} which persists the calculation history using the passed DAO.
+     * The constructed calculator uses builtinNamedValues as the default set of named values instead of
+     * {@link #BUILTIN_NAMED_VALUES}. The passed map may be modified by both the calculator and the
+     * caller.
+     *
+     * @param historyDao         DAO used to persist calculation history
+     * @param builtinNamedValues default set of named values to use instead of
+     *                           {@link #BUILTIN_NAMED_VALUES}
+     */
+    public Calculator(HistoryDao historyDao,
+        Map<String, Evaluatable> builtinNamedValues) {
+        this.historyDao = historyDao;
+        namedValues = builtinNamedValues;
     }
 
     /**
@@ -64,7 +90,7 @@ public class Calculator {
             if (expression == null) {
                 return null;
             }
-            var evaluator = new Evaluator(0);
+            var evaluator = new Evaluator(0, namedValues);
             expression.accept(evaluator);
             historyDao.addEntry(new HistoryEntry(input, evaluator.getValue()));
             return evaluator.getValue();

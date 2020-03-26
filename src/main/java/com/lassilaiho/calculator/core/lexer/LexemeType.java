@@ -17,4 +17,8 @@ public enum LexemeType {
     SLASH,
     LEFT_PAREN,
     RIGHT_PAREN,
+    /**
+     * Value is of type String.
+     */
+    IDENTIFIER,
 }

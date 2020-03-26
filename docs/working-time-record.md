@@ -15,5 +15,6 @@
 | 13.3., 21.3. | 3,5 | make SQLite library work with module system save calculation h istory using SQLite, ensure the project works on a university computer |
 | 21.3. | 1,5  | improve testing |
 | 22.3. | 1,5  | requirements specification |
+| 26.3. | 1,5  | add support for built-in constants |
 | 31.3. |  0,5 | update documentation |
-| total | 20,5 | |
+| total | 22,5 | |
