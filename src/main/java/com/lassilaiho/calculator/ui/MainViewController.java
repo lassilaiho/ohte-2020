@@ -2,7 +2,7 @@ package com.lassilaiho.calculator.ui;
 
 import java.sql.SQLException;
 import com.lassilaiho.calculator.core.*;
-import com.lassilaiho.calculator.persistence.HistorySqlDao;
+import com.lassilaiho.calculator.persistence.SqlHistoryDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
@@ -28,7 +28,7 @@ public class MainViewController {
 
     @FXML
     private void initialize() throws SQLException {
-        var dao = new HistorySqlDao(App.dbConnection);
+        var dao = new SqlHistoryDao(App.dbConnection);
         dao.initializeDatabase();
         calculator = new Calculator(dao);
         for (var entry : calculator.getHistory()) {

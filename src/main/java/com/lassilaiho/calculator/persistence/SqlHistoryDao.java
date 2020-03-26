@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.lassilaiho.calculator.core.HistoryEntry;
 
-public final class HistorySqlDao implements HistoryDao {
+public final class SqlHistoryDao implements HistoryDao {
     private Connection connection;
 
     /**
@@ -14,7 +14,7 @@ public final class HistorySqlDao implements HistoryDao {
      * 
      * @param connection the database connection used for the operations
      */
-    public HistorySqlDao(Connection connection) {
+    public SqlHistoryDao(Connection connection) {
         this.connection = connection;
     }
 
