@@ -1,24 +1,36 @@
 package com.lassilaiho.calculator.core;
 
 import static org.junit.Assert.assertEquals;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
+import com.lassilaiho.calculator.persistence.SqlHistoryDao;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import javafx.util.Pair;
 
 public class CalculatorTest {
     private double delta;
-    private MemoryHistoryDao historyDao;
+    private Connection connection;
+    private SqlHistoryDao historyDao;
     private HashMap<String, Evaluatable> namedValues;
     private Calculator calculator;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         delta = 0.000001;
-        historyDao = new MemoryHistoryDao();
+        connection = DriverManager.getConnection("jdbc:sqlite::memory:");
+        historyDao = new SqlHistoryDao(connection);
+        historyDao.initializeDatabase();
         namedValues = new HashMap<>(Calculator.BUILTIN_NAMED_VALUES);
         calculator = new Calculator(historyDao, namedValues);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        connection.close();
     }
 
     @Test
