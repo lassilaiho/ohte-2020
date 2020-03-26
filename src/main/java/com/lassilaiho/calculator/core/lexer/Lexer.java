@@ -6,13 +6,17 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@link Lexer} performs lexical analysis on character streams representing mathematical
+ * expressions.
+ */
 public final class Lexer {
     private final PushbackReader reader;
 
     /**
-     * Constructs a new Lexer that reads from reader.
+     * Constructs a new {@link Lexer} that reads from reader.
      * 
-     * @param reader the reader to read characters from
+     * @param reader the reader to read input from
      */
     public Lexer(Reader reader) {
         this.reader = new PushbackReader(reader);

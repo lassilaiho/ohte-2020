@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * The main class of the application.
+ */
 public class App extends Application {
 
     private static Scene scene;

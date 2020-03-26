@@ -4,9 +4,10 @@ import java.util.List;
 import com.lassilaiho.calculator.core.lexer.*;
 
 /**
- * Parser parses a list of lexemes into an abstract syntax tree.
+ * {@link Parser} parses a list of lexemes into an abstract syntax tree.
  *
- * Parsers are single-use objects. To parse another expression, construct a new parser object.
+ * Parsers are single-use objects. To parse another expression, construct a new {2link Parser}
+ * object.
  */
 public class Parser {
     private final List<Lexeme> lexemes;

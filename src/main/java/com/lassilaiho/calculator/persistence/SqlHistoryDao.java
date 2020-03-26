@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.lassilaiho.calculator.core.HistoryEntry;
 
+/**
+ * Implements {@link HistoryDao} using a SQL database.
+ */
 public final class SqlHistoryDao implements HistoryDao {
     private Connection connection;
 
@@ -19,7 +22,8 @@ public final class SqlHistoryDao implements HistoryDao {
     }
 
     /**
-     * Initializes the database. For example, creates tables.
+     * Initializes the database. For example, creates tables. It is safe to call this method multiple
+     * times.
      * 
      * @throws SQLException thrown if the initialization fails
      */

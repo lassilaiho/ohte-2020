@@ -1,13 +1,13 @@
 package com.lassilaiho.calculator.core;
 
 /**
- * EvaluationException signals an error occured during the evaluation of an expression.
+ * {@link EvaluationException} signals an error occured during the evaluation of an expression.
  */
 public class EvaluationException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a new EvaluationException with the specified message.
+     * Constructs a new {@link EvaluationException} with the specified message.
      * 
      * @param message error message
      */

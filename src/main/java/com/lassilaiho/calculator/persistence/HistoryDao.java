@@ -15,14 +15,15 @@ public interface HistoryDao {
     void addEntry(HistoryEntry entry);
 
     /**
-     * Returns all history entries. The entries are ordered from oldest to newest.
+     * Returns all history entries. The entries are ordered from oldest to newest. Modifying the
+     * returned list is undefined behavior.
      * 
      * @return history entries
      */
     List<HistoryEntry> getAllEntries();
 
     /**
-     * Returns the newest {@link HistoryEntry} or null if the history is empty.
+     * Returns the newest history entry or null if the history is empty.
      * 
      * @return the newest history entry or null
      */

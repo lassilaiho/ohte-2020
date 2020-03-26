@@ -4,7 +4,7 @@ import java.util.Map;
 import com.lassilaiho.calculator.core.parser.*;
 
 /**
- * Evaluator is a visitor that evaluates {@link Expression Expressions}.
+ * {@link Evaluator} is a visitor that evaluates {@link Expression Expressions}.
  */
 public class Evaluator implements ExpressionVisitor {
     private double value = 0;

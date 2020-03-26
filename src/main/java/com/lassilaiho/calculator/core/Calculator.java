@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Calculator evaluates mathematical expressions.
+ * {@link Calculator} evaluates mathematical expressions.
  */
 public class Calculator {
     private HistoryDao historyDao;
@@ -24,7 +24,7 @@ public class Calculator {
         Map.of("pi", new Constant(Math.PI), "e", new Constant(Math.exp(1)));
 
     /**
-     * Constructs a new {@link Calculator} which persists the calculation history using the passed DAO.
+     * Constructs a new {@link Calculator} which persists the calculation history using historyDao.
      * 
      * @param historyDao DAO used to persist calculation history
      */
@@ -34,8 +34,8 @@ public class Calculator {
     }
 
     /**
-     * Constructs a new {@link Calculator} which persists the calculation history using the passed DAO.
-     * The constructed calculator uses builtinNamedValues as the default set of named values instead of
+     * Constructs a new {@link Calculator} which persists the calculation history using historyDao. The
+     * constructed calculator uses builtinNamedValues as the default set of named values instead of
      * {@link #BUILTIN_NAMED_VALUES}. The passed map may be modified by both the calculator and the
      * caller.
      *
@@ -78,21 +78,21 @@ public class Calculator {
     /**
      * Calculates the value of expression. If the calculation succeeds, it is added to the history.
      * 
-     * @param  input               the expression to calculate
+     * @param  expression          the expression to calculate
      * @return                     the value of the expression or null if input is empty
      * @throws CalculatorException thrown if an error occurs during calculation
      */
-    public Number calculate(String input) throws CalculatorException {
+    public Number calculate(String expression) throws CalculatorException {
         try {
-            var lexer = new Lexer(new StringReader(input));
+            var lexer = new Lexer(new StringReader(expression));
             var parser = new Parser(lexer.lex());
-            var expression = parser.parseExpression();
-            if (expression == null) {
+            var parsedExpression = parser.parseExpression();
+            if (parsedExpression == null) {
                 return null;
             }
             var evaluator = new Evaluator(0, namedValues);
-            expression.accept(evaluator);
-            historyDao.addEntry(new HistoryEntry(input, evaluator.getValue()));
+            parsedExpression.accept(evaluator);
+            historyDao.addEntry(new HistoryEntry(expression, evaluator.getValue()));
             return evaluator.getValue();
         } catch (LexerException | ParserException | EvaluationException exception) {
             throw new CalculatorException(exception.getMessage(), exception);

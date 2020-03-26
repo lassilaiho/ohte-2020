@@ -6,7 +6,7 @@ package com.lassilaiho.calculator.core;
  */
 public interface Evaluatable {
     /**
-     * Returns the number of arguments required by {@link #evaluate()}.
+     * Returns the number of arguments required by {@link #evaluate(double...)}.
      * 
      * @return non-negative argument count
      */

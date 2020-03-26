@@ -1,7 +1,7 @@
 package com.lassilaiho.calculator.core.parser;
 
 /**
- * {@link VariableNode} is a number node.
+ * {@link VariableNode} is a variable node.
  */
 public class VariableNode implements Expression {
     public final String name;

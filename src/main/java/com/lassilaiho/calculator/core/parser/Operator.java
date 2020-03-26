@@ -1,7 +1,7 @@
 package com.lassilaiho.calculator.core.parser;
 
 /**
- * Operator is a math operator.
+ * {@link Operator} is a mathematical operator.
  */
 public enum Operator {
     ADD,

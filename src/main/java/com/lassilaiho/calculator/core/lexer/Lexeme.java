@@ -1,7 +1,7 @@
 package com.lassilaiho.calculator.core.lexer;
 
 /**
- * Lexeme is a math expression lexeme.
+ * {@link Lexeme} is a math expression lexeme.
  */
 public final class Lexeme {
     /**
@@ -15,7 +15,7 @@ public final class Lexeme {
     public final Object value;
 
     /**
-     * Constructs a new Lexeme.
+     * Constructs a new {@link Lexeme}.
      * 
      * @param type  the type of the lexeme
      * @param value the value of the lexeme, or null for no value

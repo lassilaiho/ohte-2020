@@ -1,15 +1,13 @@
 package com.lassilaiho.calculator.core.lexer;
 
 /**
- * Different lexeme types.
+ * An enumeration of lexeme types.
  *
- * Unless otherwise specified, {@link Lexeme#value} is null for the lexeme type.
+ * Unless otherwise specified, {@link Lexeme#value} is null for a lexeme type.
  */
 public enum LexemeType {
     EOF,
-    /**
-     * Value is of type double.
-     */
+    /*** Value is of type {@link Double}. */
     NUMBER,
     PLUS,
     MINUS,
@@ -17,8 +15,6 @@ public enum LexemeType {
     SLASH,
     LEFT_PAREN,
     RIGHT_PAREN,
-    /**
-     * Value is of type String.
-     */
+    /*** Value is of type {@link String}. */
     IDENTIFIER,
 }
