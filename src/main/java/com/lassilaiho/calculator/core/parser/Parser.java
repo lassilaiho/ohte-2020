@@ -1,5 +1,6 @@
 package com.lassilaiho.calculator.core.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.lassilaiho.calculator.core.lexer.*;
 
@@ -105,6 +106,9 @@ public class Parser {
                 advance();
                 return new NumberNode((double) lexeme.value);
             case IDENTIFIER:
+                if (peek(1).type == LexemeType.LEFT_PAREN) {
+                    return parseFunctionCall();
+                }
                 advance();
                 return new VariableNode((String) lexeme.value);
             case LEFT_PAREN:
@@ -117,16 +121,51 @@ public class Parser {
         }
     }
 
-    private void parseToken(LexemeType type) {
-        if (peek().type != type) {
-            throw new ParserException(
-                "expected lexeme of type " + type + " found " + peek().type);
+    private Expression parseFunctionCall() {
+        var name = (String) parseToken(LexemeType.IDENTIFIER).value;
+        parseToken(LexemeType.LEFT_PAREN);
+        var arguments = new ArrayList<Expression>();
+        var lexeme = peek();
+        if (lexeme.type == LexemeType.RIGHT_PAREN) {
+            advance();
+            return new FunctionCallNode(name, arguments);
+        }
+        while (true) {
+            arguments.add(parseBinaryExpression(Operator.MIN_PRECEDENCE));
+            lexeme = peek();
+            if (lexeme.type == LexemeType.RIGHT_PAREN) {
+                advance();
+                return new FunctionCallNode(name, arguments);
+            } else if (lexeme.type != LexemeType.COMMA) {
+                throwUnexpectedLexeme(LexemeType.RIGHT_PAREN, lexeme.type);
+            }
+            advance();
+        }
+    }
+
+    private Lexeme parseToken(LexemeType type) {
+        var lexeme = peek();
+        if (lexeme.type != type) {
+            throwUnexpectedLexeme(type, lexeme.type);
         }
         advance();
+        return lexeme;
+    }
+
+    private void throwUnexpectedLexeme(LexemeType expected, LexemeType found) {
+        throw new ParserException(
+            "expected lexeme of type " + expected + ", found " + found);
     }
 
     private Lexeme peek() {
-        return lexemes.get(current);
+        return peek(0);
+    }
+
+    private Lexeme peek(int count) {
+        if (current + count >= lexemes.size()) {
+            return new Lexeme(LexemeType.EOF);
+        }
+        return lexemes.get(current + count);
     }
 
     private void advance() {

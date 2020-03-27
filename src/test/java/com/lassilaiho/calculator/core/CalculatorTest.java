@@ -45,7 +45,10 @@ public class CalculatorTest {
             new Pair<>("5 * (3+ 4) / 2", 17.5),
             new Pair<>("3--2", 5),
             new Pair<>("4+9/2*2+-23", -10),
-            new Pair<>(" 2*pi", 2 * Math.PI));
+            new Pair<>(" 2*pi", 2 * Math.PI),
+            new Pair<>("sqrt(2)", Math.sqrt(2)),
+            new Pair<>("log2(64)", 6),
+            new Pair<>("nroot(8, 3)", Math.cbrt(8)));
         for (var subtest : subtests) {
             assertEquals(
                 subtest.getValue().doubleValue(),
@@ -65,7 +68,7 @@ public class CalculatorTest {
     }
 
     @Test(expected = CalculatorException.class)
-    public void throwsCalculationErrorOnWrongArgumentCountForNamedValue() {
+    public void throwsCalculationErrorOnWrongArgumentCountForVariable() {
         namedValues.put("invalidConstant", new Evaluatable() {
             @Override
             public int getArgumentCount() {
@@ -78,6 +81,11 @@ public class CalculatorTest {
             }
         });
         calculator.calculate("invalidConstant");
+    }
+
+    @Test(expected = CalculatorException.class)
+    public void throwsCalculationErrorOnWrongArgumentCountForFunction() {
+        calculator.calculate("nroot(2)");
     }
 
     @Test

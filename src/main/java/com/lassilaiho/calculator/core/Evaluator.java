@@ -33,14 +33,28 @@ public class Evaluator implements ExpressionVisitor {
 
     @Override
     public void visit(VariableNode node) {
-        var namedValue = namedValues.get(node.name);
-        if (namedValue == null) {
-            throw new EvaluationException("undefined variable: " + node.name);
-        }
+        var namedValue = resolveName(node.name);
         if (namedValue.getArgumentCount() != 0) {
             throw new EvaluationException("variables cannot have arguments");
         }
         value = namedValue.evaluate();
+    }
+
+    @Override
+    public void visit(FunctionCallNode node) {
+        var namedValue = resolveName(node.function);
+        if (namedValue.getArgumentCount() != node.arguments.size()) {
+            throw new EvaluationException("wrong number of arguments: expected "
+                + namedValue.getArgumentCount() + ", got " + node.arguments.size());
+        }
+        var evaluatedArguments = new double[node.arguments.size()];
+        var evaluator = new Evaluator(0, namedValues);
+        for (var i = 0; i < evaluatedArguments.length; i++) {
+            evaluator.value = 0;
+            node.arguments.get(i).accept(evaluator);
+            evaluatedArguments[i] = evaluator.value;
+        }
+        value = namedValue.evaluate(evaluatedArguments);
     }
 
     @Override
@@ -81,5 +95,13 @@ public class Evaluator implements ExpressionVisitor {
                 throw new EvaluationException(
                     "invalid binary operator: " + node.operator);
         }
+    }
+
+    private Evaluatable resolveName(String name) {
+        var namedValue = namedValues.get(name);
+        if (namedValue == null) {
+            throw new EvaluationException("undefined name: " + name);
+        }
+        return namedValue;
     }
 }

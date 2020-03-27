@@ -19,6 +19,13 @@ public interface ExpressionVisitor {
     void visit(VariableNode node);
 
     /**
+     * Visit a function call node.
+     * 
+     * @param node function call node to visit
+     */
+    void visit(FunctionCallNode node);
+
+    /**
      * Visit a unary expression node.
      * 
      * @param node unary expression node to visit

@@ -57,6 +57,9 @@ public final class Lexer {
                 case ')':
                     result.add(new Lexeme(LexemeType.RIGHT_PAREN));
                     break;
+                case ',':
+                    result.add(new Lexeme(LexemeType.COMMA));
+                    break;
                 default:
                     if (Character.isDigit(c)) {
                         unread(c);

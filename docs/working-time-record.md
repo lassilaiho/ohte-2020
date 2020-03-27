@@ -17,5 +17,6 @@
 | 22.3. |  1,5 | requirements specification |
 | 26.3. |  1,5 | add support for built-in constants |
 |       |    2 | JavaDoc generation and improvements, refactoring |
+| 27.3. |  2,5 | add support for built-in functions |
 | 31.3. |  0,5 | update documentation |
-| total | 24,5 | |
+| total |   27 | |
