@@ -5,8 +5,7 @@ import java.io.StringReader;
 import static com.lassilaiho.calculator.core.Function.*;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
-import com.lassilaiho.calculator.persistence.HistoryDao;
-import java.util.Collections;
+import com.lassilaiho.calculator.persistence.SessionDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ import static java.util.Map.entry;
  * {@link Calculator} evaluates mathematical expressions.
  */
 public class Calculator {
-    private HistoryDao historyDao;
+    private SessionDao sessionDao;
     private Map<String, Evaluatable> namedValues;
 
     /**
@@ -44,28 +43,28 @@ public class Calculator {
         entry("min", binary(Math::min)));
 
     /**
-     * Constructs a new {@link Calculator} which persists the calculation history using historyDao.
-     * 
-     * @param historyDao DAO used to persist calculation history
+     * Constructs a new {@link Calculator} which persists the current session using {@code sessionDao}.
+     *
+     * @param sessionDao DAO used to persist the current session
      */
-    public Calculator(HistoryDao historyDao) {
-        this.historyDao = historyDao;
+    public Calculator(SessionDao sessionDao) {
+        this.sessionDao = sessionDao;
         namedValues = new HashMap<>(BUILTIN_NAMED_VALUES);
     }
 
     /**
-     * Constructs a new {@link Calculator} which persists the calculation history using historyDao. The
-     * constructed calculator uses builtinNamedValues as the default set of named values instead of
+     * Constructs a new {@link Calculator} which persists the current session using {@code sessionDao}.
+     * The constructed calculator uses builtinNamedValues as the default set of named values instead of
      * {@link #BUILTIN_NAMED_VALUES}. The passed map may be modified by both the calculator and the
      * caller.
      *
-     * @param historyDao         DAO used to persist calculation history
+     * @param sessionDao         DAO used to persist the current session
      * @param builtinNamedValues default set of named values to use instead of
      *                           {@link #BUILTIN_NAMED_VALUES}
      */
-    public Calculator(HistoryDao historyDao,
+    public Calculator(SessionDao sessionDao,
         Map<String, Evaluatable> builtinNamedValues) {
-        this.historyDao = historyDao;
+        this.sessionDao = sessionDao;
         namedValues = builtinNamedValues;
     }
 
@@ -76,14 +75,14 @@ public class Calculator {
      * @return A list of history entries.
      */
     public List<HistoryEntry> getHistory() {
-        return Collections.unmodifiableList(historyDao.getAllEntries());
+        return sessionDao.history().getAllEntries();
     }
 
     /**
      * Removes all history entries.
      */
     public void clearHistory() {
-        historyDao.removeAllEntries();
+        sessionDao.history().removeAllEntries();
     }
 
     /**
@@ -92,7 +91,7 @@ public class Calculator {
      * @return the newest history entry or null
      */
     public HistoryEntry newestHistoryEntry() {
-        return historyDao.getNewestEntry();
+        return sessionDao.history().getNewestEntry();
     }
 
     /**
@@ -112,7 +111,8 @@ public class Calculator {
             }
             var evaluator = new Evaluator(0, namedValues);
             parsedExpression.accept(evaluator);
-            historyDao.addEntry(new HistoryEntry(expression, evaluator.getValue()));
+            sessionDao.history()
+                .addEntry(new HistoryEntry(expression, evaluator.getValue()));
             return evaluator.getValue();
         } catch (LexerException | ParserException | EvaluationException exception) {
             throw new CalculatorException(exception.getMessage(), exception);

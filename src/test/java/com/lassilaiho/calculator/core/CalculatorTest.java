@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
-import com.lassilaiho.calculator.persistence.SqlHistoryDao;
+import com.lassilaiho.calculator.persistence.SqlSessionDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import javafx.util.Pair;
 public class CalculatorTest {
     private double delta;
     private Connection connection;
-    private SqlHistoryDao historyDao;
+    private SqlSessionDao sessionDao;
     private HashMap<String, Evaluatable> namedValues;
     private Calculator calculator;
 
@@ -22,10 +22,10 @@ public class CalculatorTest {
     public void setUp() throws Exception {
         delta = 0.000001;
         connection = DriverManager.getConnection("jdbc:sqlite::memory:");
-        historyDao = new SqlHistoryDao(connection);
-        historyDao.initializeDatabase();
+        sessionDao = new SqlSessionDao(connection);
+        sessionDao.initializeDatabase();
         namedValues = new HashMap<>(Calculator.BUILTIN_NAMED_VALUES);
-        calculator = new Calculator(historyDao, namedValues);
+        calculator = new Calculator(sessionDao, namedValues);
     }
 
     @After
