@@ -5,6 +5,8 @@ import com.lassilaiho.calculator.core.*;
 import com.lassilaiho.calculator.persistence.SqlHistoryDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -64,11 +66,15 @@ public class MainViewController {
     }
 
     private void addHistoryEntryRow(HistoryEntry entry) {
+        var expressionLabel = new Label(entry.getExpression());
+        expressionLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
+        var valueLabel = new Label(entry.getValue().toString());
+        valueLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
         historyView.addRow(
             historyView.getRowCount(),
-            new Text(entry.getExpression()),
+            expressionLabel,
             new Text("="),
-            new Text(entry.getValue().toString()));
+            valueLabel);
     }
 
     private void updateHistoryViewScrollPosition() {
