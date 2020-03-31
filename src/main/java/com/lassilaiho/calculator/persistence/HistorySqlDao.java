@@ -49,8 +49,7 @@ public final class HistorySqlDao implements HistoryDao {
             var results = new ArrayList<HistoryEntry>();
             try (var rows = statement.executeQuery()) {
                 while (rows.next()) {
-                    results
-                        .add(new HistoryEntry(rows.getString(1), rows.getBigDecimal(2)));
+                    results.add(new HistoryEntry(rows.getString(1), rows.getDouble(2)));
                 }
             }
             return results;

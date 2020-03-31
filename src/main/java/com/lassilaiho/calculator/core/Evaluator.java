@@ -56,6 +56,9 @@ public class Evaluator implements ExpressionVisitor {
                 value = left.value * right.value;
                 break;
             case DIVIDE:
+                if (right.value == 0) {
+                    throw new EvaluationException("cannot divide by zero");
+                }
                 value = left.value / right.value;
                 break;
             default:
