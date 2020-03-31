@@ -6,29 +6,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.apache.commons.cli.*;
 
 /**
  * The main class of the application.
  */
 public class App extends Application {
+    public static Connection dbConnection;
 
     private static Scene scene;
-    public static Connection dbConnection;
+
+    private static final String DEFAULT_SESSION_FILE = "calculator.db";
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
-        dbConnection = DriverManager.getConnection("jdbc:sqlite:calculator.db");
         scene = new Scene(loadFXML("MainView"));
         stage.setScene(scene);
         stage.show();
-    }
-
-    @Override
-    public void stop() throws SQLException {
-        dbConnection.close();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -36,21 +35,49 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    /**
-     * The main function of the program.
-     * 
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-        loadSqliteDriver();
-        App.launch();
+    public static void main(String[] args) throws Exception {
+        try {
+            var options = defineCliOptions();
+            var commandLine = new DefaultParser().parse(options, args);
+            if (commandLine.hasOption("help")) {
+                var formatter = new HelpFormatter();
+                formatter.printHelp("calculator [options]", options);
+                return;
+            }
+            var sessionFile =
+                commandLine.getOptionValue("default-session", DEFAULT_SESSION_FILE);
+            dbConnection = openDatabase(sessionFile);
+            Class.forName("org.sqlite.JDBC");
+            App.launch();
+        } catch (ParseException | SQLException | IOException
+            | UnsupportedOperationException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        } finally {
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
     }
 
-    private static void loadSqliteDriver() {
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    private static Options defineCliOptions() {
+        var options = new Options();
+        options.addOption(
+            Option.builder().longOpt("default-session").hasArg().type(String.class)
+                .desc("path to the default session file").argName("session file")
+                .numberOfArgs(1).build());
+        options.addOption(
+            Option.builder("h").longOpt("help").desc("display usage information")
+                .build());
+        return options;
+    }
+
+    private static Connection openDatabase(String file) throws IOException, SQLException {
+        var path = Paths.get(file);
+        var parent = path.getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
         }
+        return DriverManager.getConnection("jdbc:sqlite:" + path);
     }
 }
