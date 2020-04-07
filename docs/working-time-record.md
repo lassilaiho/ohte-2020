@@ -19,4 +19,5 @@
 |       |    2 | JavaDoc generation and improvements, refactoring |
 | 27.3. |  2,5 | add support for built-in functions |
 | 31.3. |  0,5 | update documentation |
-| total |   27 | |
+|  7.4. |  2,5 | class/package diagram |
+| total | 29,5 | |
