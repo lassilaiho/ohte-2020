@@ -17,13 +17,13 @@ functions.
 
 These features form the core of the application.
 
-- [ ] math operations
+- [x] math operations
   - [x] basic math operations (addition, subtraction, multiplication, division)
   - [x] expression grouping using parentheses
-  - [ ] trigonometric functions
-  - [ ] logarithmic and exponential functions
-  - [ ] roots
-  - [ ] common constants (*π*, *e*)
+  - [x] trigonometric functions
+  - [x] logarithmic and exponential functions
+  - [x] roots
+  - [x] common constants (*π*, *e*)
 - [x] calculation history
   - [x] can be cleared
   - [x] preserved across application restarts
