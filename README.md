@@ -10,6 +10,8 @@ Helsinki.
 
 [Requirements specification](docs/requirements-specification.md)
 
+[Architecture description](docs/architecture.md)
+
 [Working time record](docs/working-time-record.md)
 
 ## Commands
@@ -40,3 +42,11 @@ Checkstyle checks can be run with
 mvn jxr:jxr checkstyle:checkstyle
 ```
 Results can be viewed by opening target/site/checkstyle.html.
+
+
+### JavaDoc
+
+To generate JavaDoc documentation, run
+```
+mvn javadoc:javadoc
+```
