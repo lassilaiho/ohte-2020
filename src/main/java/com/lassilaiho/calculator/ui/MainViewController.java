@@ -2,7 +2,7 @@ package com.lassilaiho.calculator.ui;
 
 import java.sql.SQLException;
 import com.lassilaiho.calculator.core.*;
-import com.lassilaiho.calculator.persistence.SqlSessionDao;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MainViewController {
     private Calculator calculator;
@@ -30,9 +32,8 @@ public class MainViewController {
 
     @FXML
     private void initialize() throws SQLException {
-        var dao = new SqlSessionDao(App.dbConnection);
-        dao.initializeDatabase();
-        calculator = new Calculator(dao);
+        calculator = new Calculator(App.sessionManager.getSession());
+        historyView.getChildren().clear();
         for (var entry : calculator.getHistory()) {
             addHistoryEntryRow(entry);
         }
@@ -92,5 +93,53 @@ public class MainViewController {
     private void clearHistory() {
         historyView.getChildren().clear();
         calculator.clearHistory();
+    }
+
+    @FXML
+    private void exitApplication() {
+        Platform.exit();
+    }
+
+    @FXML
+    private void saveSession() throws Exception {
+        var fileChooser = createSessionFileChooser("Save Session File");
+        fileChooser.initialFileNameProperty().set("current.session");
+        var selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
+        if (selectedFile != null) {
+            App.sessionManager.switchDatabase(selectedFile.getAbsolutePath());
+        }
+    }
+
+    @FXML
+    private void openSession() throws Exception {
+        var selectedFile = createSessionFileChooser("Open Session File")
+            .showOpenDialog(App.scene.getWindow());
+        if (selectedFile != null) {
+            reinitialize(selectedFile.getAbsolutePath());
+        }
+    }
+
+    @FXML
+    private void openDefaultSession() throws Exception {
+        reinitialize(App.defaultSessionFile);
+    }
+
+    @FXML
+    private void createSession() throws Exception {
+        reinitialize(":memory:");
+    }
+
+    private FileChooser createSessionFileChooser(String title) {
+        var fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters()
+            .add(new ExtensionFilter("Session Files", "*.session"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("All Files", "*.*"));
+        return fileChooser;
+    }
+
+    private void reinitialize(String newDatabase) throws Exception {
+        App.sessionManager.openSession(newDatabase);
+        initialize();
     }
 }

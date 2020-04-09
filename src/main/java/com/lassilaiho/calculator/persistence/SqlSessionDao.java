@@ -28,6 +28,17 @@ public class SqlSessionDao implements SessionDao {
         historyDao.initializeDatabase();
     }
 
+    /**
+     * Switches the database used to persist the session. The current session is copied to the new
+     * database.
+     * 
+     * @param  newConnection the new database connection used for persistence
+     * @throws SQLException  thrown if the operation fails
+     */
+    public void switchDatabase(Connection newConnection) throws SQLException {
+        historyDao.switchDatabase(newConnection);
+    }
+
     @Override
     public HistoryDao history() {
         return historyDao;

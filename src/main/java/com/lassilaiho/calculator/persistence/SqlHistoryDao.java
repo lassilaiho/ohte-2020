@@ -34,6 +34,23 @@ public final class SqlHistoryDao implements HistoryDao {
         }
     }
 
+    /**
+     * Switches the database used to persist history. Current history replaces the history in the new
+     * database.
+     * 
+     * @param  newConnection the new database connection used for persistence
+     * @throws SQLException  thrown if the operation fails
+     */
+    public void switchDatabase(Connection newConnection) throws SQLException {
+        var tempDao = new SqlHistoryDao(newConnection);
+        tempDao.initializeDatabase();
+        tempDao.removeAllEntries();
+        for (var entry : getAllEntries()) {
+            tempDao.addEntry(entry);
+        }
+        connection = newConnection;
+    }
+
     @Override
     public void addEntry(HistoryEntry entry) {
         try (var statement = connection

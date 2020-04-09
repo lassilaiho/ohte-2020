@@ -6,22 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import com.lassilaiho.calculator.persistence.SqliteSessionManager;
 import org.apache.commons.cli.*;
 
 /**
  * The main class of the application.
  */
 public class App extends Application {
-    public static Connection dbConnection;
+    public static SqliteSessionManager sessionManager =
+        new SqliteSessionManager("jdbc:sqlite");
 
-    private static Scene scene;
+    public static Scene scene;
 
-    private static final String DEFAULT_SESSION_FILE = "calculator.db";
+    public static String defaultSessionFile = "default.session";
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
@@ -37,6 +35,8 @@ public class App extends Application {
 
     public static void main(String[] args) throws Exception {
         try {
+            Class.forName("org.sqlite.JDBC");
+
             var options = defineCliOptions();
             var commandLine = new DefaultParser().parse(options, args);
             if (commandLine.hasOption("help")) {
@@ -44,19 +44,17 @@ public class App extends Application {
                 formatter.printHelp("calculator [options]", options);
                 return;
             }
-            var sessionFile =
-                commandLine.getOptionValue("default-session", DEFAULT_SESSION_FILE);
-            dbConnection = openDatabase(sessionFile);
-            Class.forName("org.sqlite.JDBC");
+
+            defaultSessionFile =
+                commandLine.getOptionValue("default-session", "default.session");
+            sessionManager.openSession(defaultSessionFile);
             App.launch();
         } catch (ParseException | SQLException | IOException
             | UnsupportedOperationException e) {
             System.out.println(e.getMessage());
             System.exit(1);
         } finally {
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
+            sessionManager.close();
         }
     }
 
@@ -70,14 +68,5 @@ public class App extends Application {
             Option.builder("h").longOpt("help").desc("display usage information")
                 .build());
         return options;
-    }
-
-    private static Connection openDatabase(String file) throws IOException, SQLException {
-        var path = Paths.get(file);
-        var parent = path.getParent();
-        if (parent != null) {
-            Files.createDirectories(parent);
-        }
-        return DriverManager.getConnection("jdbc:sqlite:" + path);
     }
 }
