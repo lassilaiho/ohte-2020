@@ -77,7 +77,7 @@ public final class SqlHistoryDao implements HistoryDao {
             "SELECT expression, value FROM history ORDER BY id DESC LIMIT 1")) {
             try (var rows = statement.executeQuery()) {
                 if (rows.next()) {
-                    return new HistoryEntry(rows.getString(1), rows.getBigDecimal(2));
+                    return new HistoryEntry(rows.getString(1), rows.getDouble(2));
                 }
                 return null;
             }
