@@ -43,10 +43,17 @@ mvn jxr:jxr checkstyle:checkstyle
 ```
 Results can be viewed by opening target/site/checkstyle.html.
 
-
 ### JavaDoc
 
 To generate JavaDoc documentation, run
 ```
 mvn javadoc:javadoc
 ```
+
+### Packaging
+
+To generate a distributable JAR file, run
+```
+mvn package
+```
+The generated JAR file is located in target/calculator-\<version>.jar.
