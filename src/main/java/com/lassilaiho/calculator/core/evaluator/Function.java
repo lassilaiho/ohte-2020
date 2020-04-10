@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.evaluator;
 
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;

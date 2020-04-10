@@ -2,7 +2,8 @@ package com.lassilaiho.calculator.core;
 
 import java.io.IOException;
 import java.io.StringReader;
-import static com.lassilaiho.calculator.core.Function.*;
+import com.lassilaiho.calculator.core.evaluator.*;
+import static com.lassilaiho.calculator.core.evaluator.Function.*;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
 import com.lassilaiho.calculator.persistence.SessionDao;

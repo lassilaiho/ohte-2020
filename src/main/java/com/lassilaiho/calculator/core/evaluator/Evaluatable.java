@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.evaluator;
 
 /**
  * An object implementing {@link Evaluatable} can be evaluated to produce a result. For example,

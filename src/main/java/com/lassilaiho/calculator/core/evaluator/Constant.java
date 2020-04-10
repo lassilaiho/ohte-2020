@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.evaluator;
 
 /**
  * {@link Constant} is an immutable container for a single value. Evaluating a {@link Constant}

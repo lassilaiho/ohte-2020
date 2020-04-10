@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.evaluator;
 
 import java.util.Map;
 import com.lassilaiho.calculator.core.parser.*;

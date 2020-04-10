@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
+import com.lassilaiho.calculator.core.evaluator.Evaluatable;
 import com.lassilaiho.calculator.persistence.SqlSessionDao;
 import org.junit.After;
 import org.junit.Before;

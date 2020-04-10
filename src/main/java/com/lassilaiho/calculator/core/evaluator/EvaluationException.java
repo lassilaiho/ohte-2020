@@ -1,4 +1,4 @@
-package com.lassilaiho.calculator.core;
+package com.lassilaiho.calculator.core.evaluator;
 
 /**
  * {@link EvaluationException} signals an error occured during the evaluation of an expression.
