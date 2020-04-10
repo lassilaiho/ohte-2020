@@ -1,9 +1,9 @@
 package com.lassilaiho.calculator.core.parser;
 
 /**
- * A visitor for classes implementing {@link Expression}.
+ * A visitor for classes implementing {@link Node}.
  */
-public interface ExpressionVisitor {
+public interface NodeVisitor {
     /**
      * Visit a number node.
      * 

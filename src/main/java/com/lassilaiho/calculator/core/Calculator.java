@@ -106,12 +106,12 @@ public class Calculator {
         try {
             var lexer = new Lexer(new StringReader(expression));
             var parser = new Parser(lexer.lex());
-            var parsedExpression = parser.parseExpression();
-            if (parsedExpression == null) {
+            var parsedNode = parser.parseNode();
+            if (parsedNode == null) {
                 return null;
             }
             var evaluator = new Evaluator(0, namedValues);
-            parsedExpression.accept(evaluator);
+            parsedNode.accept(evaluator);
             sessionDao.history()
                 .addEntry(new HistoryEntry(expression, evaluator.getValue()));
             return evaluator.getValue();

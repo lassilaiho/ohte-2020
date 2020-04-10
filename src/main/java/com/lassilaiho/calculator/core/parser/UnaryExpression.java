@@ -19,7 +19,7 @@ public class UnaryExpression implements Expression {
     }
 
     @Override
-    public void accept(ExpressionVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visit(this);
     }
 

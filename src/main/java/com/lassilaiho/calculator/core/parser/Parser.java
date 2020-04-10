@@ -27,16 +27,20 @@ public class Parser {
     }
 
     /**
-     * Parses an expression.
+     * Parses a {@link Node}.
      * 
-     * Calls after the first call always return null.
+     * Calls after the first call will always return null.
      * 
-     * @return the resulting expression
+     * @return the resulting node
      */
-    public Expression parseExpression() {
+    public Node parseNode() {
         if (current > 0 || peek().type == LexemeType.EOF) {
             return null;
         }
+        return parseExpression();
+    }
+
+    private Expression parseExpression() {
         return parseBinaryExpression(Operator.MIN_PRECEDENCE);
     }
 
@@ -118,7 +122,7 @@ public class Parser {
 
     private Expression parseSubExpression() {
         parseToken(LexemeType.LEFT_PAREN);
-        var subExpression = parseBinaryExpression(Operator.MIN_PRECEDENCE);
+        var subExpression = parseExpression();
         parseToken(LexemeType.RIGHT_PAREN);
         return subExpression;
     }
@@ -132,7 +136,7 @@ public class Parser {
             return new FunctionCallNode(name, arguments);
         }
         for (var lexeme = peek();; advance()) {
-            arguments.add(parseBinaryExpression(Operator.MIN_PRECEDENCE));
+            arguments.add(parseExpression());
             lexeme = peek();
             if (lexeme.type == LexemeType.RIGHT_PAREN) {
                 advance();
