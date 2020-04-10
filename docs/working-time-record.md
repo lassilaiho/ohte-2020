@@ -22,4 +22,5 @@
 |       |    1 | refactoring |
 |  7.4. |  2,5 | class/package diagram |
 |  9.4. |    4 | session support |
-| total | 34,5 | |
+| 10.4. |    1 | refactoring |
+| total | 35,5 | |
