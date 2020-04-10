@@ -56,29 +56,27 @@ public class Parser {
     }
 
     private Operator parseBinaryOperator(int precedence) {
-        Operator operator;
-        switch (peek().type) {
-            case PLUS:
-                operator = Operator.ADD;
-                break;
-            case MINUS:
-                operator = Operator.SUBTRACT;
-                break;
-            case ASTERISK:
-                operator = Operator.MULTIPLY;
-                break;
-            case SLASH:
-                operator = Operator.DIVIDE;
-                break;
-            default:
-                operator = null;
-                break;
-        }
+        var operator = matchBinaryOperator(peek().type);
         if (operator != null && operator.precedence() == precedence) {
             advance();
             return operator;
         }
         return null;
+    }
+
+    private Operator matchBinaryOperator(LexemeType type) {
+        switch (type) {
+            case PLUS:
+                return Operator.ADD;
+            case MINUS:
+                return Operator.SUBTRACT;
+            case ASTERISK:
+                return Operator.MULTIPLY;
+            case SLASH:
+                return Operator.DIVIDE;
+            default:
+                return null;
+        }
     }
 
     private Expression parseUnaryExpression() {
@@ -112,25 +110,28 @@ public class Parser {
                 advance();
                 return new VariableNode((String) lexeme.value);
             case LEFT_PAREN:
-                advance();
-                var subExpression = parseBinaryExpression(Operator.MIN_PRECEDENCE);
-                parseToken(LexemeType.RIGHT_PAREN);
-                return subExpression;
+                return parseSubExpression();
             default:
                 throw new ParserException("unexpected lexeme: " + lexeme);
         }
+    }
+
+    private Expression parseSubExpression() {
+        parseToken(LexemeType.LEFT_PAREN);
+        var subExpression = parseBinaryExpression(Operator.MIN_PRECEDENCE);
+        parseToken(LexemeType.RIGHT_PAREN);
+        return subExpression;
     }
 
     private Expression parseFunctionCall() {
         var name = (String) parseToken(LexemeType.IDENTIFIER).value;
         parseToken(LexemeType.LEFT_PAREN);
         var arguments = new ArrayList<Expression>();
-        var lexeme = peek();
-        if (lexeme.type == LexemeType.RIGHT_PAREN) {
+        if (peek().type == LexemeType.RIGHT_PAREN) {
             advance();
             return new FunctionCallNode(name, arguments);
         }
-        while (true) {
+        for (var lexeme = peek();; advance()) {
             arguments.add(parseBinaryExpression(Operator.MIN_PRECEDENCE));
             lexeme = peek();
             if (lexeme.type == LexemeType.RIGHT_PAREN) {
@@ -139,7 +140,6 @@ public class Parser {
             } else if (lexeme.type != LexemeType.COMMA) {
                 throwUnexpectedLexeme(LexemeType.RIGHT_PAREN, lexeme.type);
             }
-            advance();
         }
     }
 

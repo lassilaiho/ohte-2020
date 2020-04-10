@@ -75,25 +75,24 @@ public class Evaluator implements ExpressionVisitor {
         node.left.accept(left);
         var right = new Evaluator(0, namedValues);
         node.right.accept(right);
-        switch (node.operator) {
+        value = applyBinaryOperator(node.operator, left.value, right.value);
+    }
+
+    private double applyBinaryOperator(Operator operator, double left, double right) {
+        switch (operator) {
             case ADD:
-                value = left.value + right.value;
-                break;
+                return left + right;
             case SUBTRACT:
-                value = left.value - right.value;
-                break;
+                return left - right;
             case MULTIPLY:
-                value = left.value * right.value;
-                break;
+                return left * right;
             case DIVIDE:
-                if (right.value == 0) {
+                if (right == 0) {
                     throw new EvaluationException("cannot divide by zero");
                 }
-                value = left.value / right.value;
-                break;
+                return left / right;
             default:
-                throw new EvaluationException(
-                    "invalid binary operator: " + node.operator);
+                throw new EvaluationException("invalid binary operator: " + operator);
         }
     }
 
