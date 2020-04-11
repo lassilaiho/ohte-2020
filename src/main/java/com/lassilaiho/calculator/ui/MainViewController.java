@@ -104,7 +104,7 @@ public class MainViewController {
     private void saveSession() throws Exception {
         var fileChooser = createSessionFileChooser("Save Session File");
         fileChooser.initialFileNameProperty().set("current.session");
-        var selectedFile = fileChooser.showOpenDialog(App.scene.getWindow());
+        var selectedFile = fileChooser.showSaveDialog(App.scene.getWindow());
         if (selectedFile != null) {
             App.sessionManager.switchDatabase(selectedFile.getAbsolutePath());
         }
