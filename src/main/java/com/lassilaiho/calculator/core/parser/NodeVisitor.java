@@ -45,4 +45,11 @@ public interface NodeVisitor {
      * @param node assignment node to visit
      */
     void visit(AssignmentNode node);
+
+    /**
+     * Visit a function definition node.
+     * 
+     * @param node function definition node to visit
+     */
+    void visit(FunctionDefinitionNode node);
 }

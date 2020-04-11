@@ -2,6 +2,7 @@ package com.lassilaiho.calculator.core.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import com.lassilaiho.calculator.core.lexer.*;
 
 /**
@@ -37,17 +38,27 @@ public class Parser {
         if (current > 0 || peek().type == LexemeType.EOF) {
             return null;
         }
-        if (peek().type == LexemeType.IDENTIFIER && peek(1).type == LexemeType.ASSIGN) {
-            return parseStatement();
+        var statement = tryParseStatement();
+        if (statement != null) {
+            return statement;
         }
         return parseExpression();
     }
 
-    private Statement parseStatement() {
-        var name = (String) parseToken(LexemeType.IDENTIFIER).value;
+    private Node tryParseStatement() {
+        if (!lookAheadForLexeme(LexemeType.ASSIGN)) {
+            return null;
+        }
+        var name = parseIdentifier();
+        if (peek().type == LexemeType.ASSIGN) {
+            parseToken(LexemeType.ASSIGN);
+            var value = parseExpression();
+            return new AssignmentNode(name, value);
+        }
+        var parameters = parseList(this::parseIdentifier);
         parseToken(LexemeType.ASSIGN);
-        var value = parseExpression();
-        return new AssignmentNode(name, value);
+        var body = parseExpression();
+        return new FunctionDefinitionNode(name, parameters, body);
     }
 
     private Expression parseExpression() {
@@ -138,23 +149,31 @@ public class Parser {
     }
 
     private Expression parseFunctionCall() {
-        var name = (String) parseToken(LexemeType.IDENTIFIER).value;
+        var name = parseIdentifier();
+        return new FunctionCallNode(name, parseList(this::parseExpression));
+    }
+
+    private <T> List<T> parseList(Supplier<T> elementParser) {
         parseToken(LexemeType.LEFT_PAREN);
-        var arguments = new ArrayList<Expression>();
+        var list = new ArrayList<T>();
         if (peek().type == LexemeType.RIGHT_PAREN) {
             advance();
-            return new FunctionCallNode(name, arguments);
+            return list;
         }
         for (var lexeme = peek();; advance()) {
-            arguments.add(parseExpression());
+            list.add(elementParser.get());
             lexeme = peek();
             if (lexeme.type == LexemeType.RIGHT_PAREN) {
                 advance();
-                return new FunctionCallNode(name, arguments);
+                return list;
             } else if (lexeme.type != LexemeType.COMMA) {
                 throwUnexpectedLexeme(LexemeType.RIGHT_PAREN, lexeme.type);
             }
         }
+    }
+
+    private String parseIdentifier() {
+        return (String) parseToken(LexemeType.IDENTIFIER).value;
     }
 
     private Lexeme parseToken(LexemeType type) {
@@ -169,6 +188,15 @@ public class Parser {
     private void throwUnexpectedLexeme(LexemeType expected, LexemeType found) {
         throw new ParserException(
             "expected lexeme of type " + expected + ", found " + found);
+    }
+
+    private boolean lookAheadForLexeme(LexemeType type) {
+        for (var i = current; i < lexemes.size(); i++) {
+            if (lexemes.get(i).type == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Lexeme peek() {

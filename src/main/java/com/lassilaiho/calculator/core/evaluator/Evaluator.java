@@ -1,6 +1,6 @@
 package com.lassilaiho.calculator.core.evaluator;
 
-import java.util.Map;
+import com.lassilaiho.calculator.core.evaluator.Function.NAryFunction;
 import com.lassilaiho.calculator.core.parser.*;
 
 /**
@@ -82,6 +82,26 @@ public class Evaluator implements NodeVisitor {
     public void visit(AssignmentNode node) {
         node.value.accept(this);
         namedValues.set(node.name, new Constant(value));
+    }
+
+    @Override
+    public void visit(FunctionDefinitionNode node) {
+        NAryFunction evaluate = args -> {
+            var evaluator = new Evaluator(0, namedValues);
+            for (var i = 0; i < args.length; i++) {
+                evaluator.namedValues
+                    .declare(node.parameters.get(i), new Constant(args[i]), false);
+            }
+            try {
+                node.body.accept(evaluator);
+            } finally {
+                for (var i = 0; i < args.length; i++) {
+                    evaluator.namedValues.delete(node.parameters.get(i));
+                }
+            }
+            return evaluator.value;
+        };
+        namedValues.set(node.name, new Function(node.parameters.size(), evaluate));
     }
 
     private double applyBinaryOperator(Operator operator, double left, double right) {

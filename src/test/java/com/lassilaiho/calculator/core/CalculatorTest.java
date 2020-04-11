@@ -69,6 +69,25 @@ public class CalculatorTest {
         assertEquals(1, calculator.calculate("y").doubleValue(), delta);
     }
 
+    @Test
+    public void userDefinedFunctionsWork() {
+        assertEquals(1, calculator.calculate("x := 1").doubleValue(), delta);
+        assertEquals(0, calculator.calculate("square(x) := x * x").doubleValue(), delta);
+        assertEquals(4, calculator.calculate("square(2)").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("x").doubleValue(), delta);
+
+        assertEquals(0, calculator.calculate("add(x, y) := x + y").doubleValue(), delta);
+        assertEquals(5, calculator.calculate("add(1, 4)").doubleValue(), delta);
+
+        assertEquals(0, calculator.calculate("zero() := 0").doubleValue(), delta);
+        assertEquals(0, calculator.calculate("zero()").doubleValue(), delta);
+    }
+
+    @Test(expected = CalculatorException.class)
+    public void throwsCalculationErrorOnAssignImmutable() {
+        calculator.calculate("pi:=3");
+    }
+
     @Test(expected = CalculatorException.class)
     public void throwsCalculationErrorOnInvalidInput() {
         calculator.calculate("3+(2-4");
