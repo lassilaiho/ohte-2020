@@ -3,9 +3,9 @@ package com.lassilaiho.calculator.core;
 import static org.junit.Assert.assertEquals;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.HashMap;
 import java.util.List;
 import com.lassilaiho.calculator.core.evaluator.Evaluatable;
+import com.lassilaiho.calculator.core.evaluator.Scope;
 import com.lassilaiho.calculator.persistence.SqlSessionDao;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ public class CalculatorTest {
     private double delta;
     private Connection connection;
     private SqlSessionDao sessionDao;
-    private HashMap<String, Evaluatable> namedValues;
+    private Scope scope;
     private Calculator calculator;
 
     @Before
@@ -25,8 +25,8 @@ public class CalculatorTest {
         connection = DriverManager.getConnection("jdbc:sqlite::memory:");
         sessionDao = new SqlSessionDao(connection);
         sessionDao.initializeDatabase();
-        namedValues = new HashMap<>(Calculator.BUILTIN_NAMED_VALUES);
-        calculator = new Calculator(sessionDao, namedValues);
+        scope = Scope.ofMap(Calculator.BUILTIN_NAMED_VALUES);
+        calculator = new Calculator(sessionDao, scope);
     }
 
     @After
@@ -81,7 +81,7 @@ public class CalculatorTest {
 
     @Test(expected = CalculatorException.class)
     public void throwsCalculationErrorOnWrongArgumentCountForVariable() {
-        namedValues.put("invalidConstant", new Evaluatable() {
+        scope.declare("invalidConstant", new Evaluatable() {
             @Override
             public int getArgumentCount() {
                 return 1;
@@ -91,7 +91,7 @@ public class CalculatorTest {
             public double evaluate(double... arguments) {
                 return 0;
             }
-        });
+        }, false);
         calculator.calculate("invalidConstant");
     }
 

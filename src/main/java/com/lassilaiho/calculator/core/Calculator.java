@@ -7,7 +7,6 @@ import static com.lassilaiho.calculator.core.evaluator.Function.*;
 import com.lassilaiho.calculator.core.lexer.*;
 import com.lassilaiho.calculator.core.parser.*;
 import com.lassilaiho.calculator.persistence.SessionDao;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static java.util.Map.entry;
@@ -17,7 +16,7 @@ import static java.util.Map.entry;
  */
 public class Calculator {
     private SessionDao sessionDao;
-    private Map<String, Evaluatable> namedValues;
+    private Scope scope;
 
     /**
      * An immutable map of built-in named values supported by all calculators.
@@ -50,23 +49,21 @@ public class Calculator {
      */
     public Calculator(SessionDao sessionDao) {
         this.sessionDao = sessionDao;
-        namedValues = new HashMap<>(BUILTIN_NAMED_VALUES);
+        scope = Scope.ofMap(BUILTIN_NAMED_VALUES);
     }
 
     /**
      * Constructs a new {@link Calculator} which persists the current session using {@code sessionDao}.
-     * The constructed calculator uses builtinNamedValues as the default set of named values instead of
+     * The constructed calculator uses globalScope as the default set of named values instead of
      * {@link #BUILTIN_NAMED_VALUES}. The passed map may be modified by both the calculator and the
      * caller.
      *
-     * @param sessionDao         DAO used to persist the current session
-     * @param builtinNamedValues default set of named values to use instead of
-     *                           {@link #BUILTIN_NAMED_VALUES}
+     * @param sessionDao  DAO used to persist the current session
+     * @param globalScope default set of named values to use instead of {@link #BUILTIN_NAMED_VALUES}
      */
-    public Calculator(SessionDao sessionDao,
-        Map<String, Evaluatable> builtinNamedValues) {
+    public Calculator(SessionDao sessionDao, Scope globalScope) {
         this.sessionDao = sessionDao;
-        namedValues = builtinNamedValues;
+        scope = globalScope;
     }
 
     /**
@@ -110,7 +107,7 @@ public class Calculator {
             if (parsedNode == null) {
                 return null;
             }
-            var evaluator = new Evaluator(0, namedValues);
+            var evaluator = new Evaluator(0, scope);
             parsedNode.accept(evaluator);
             sessionDao.history()
                 .addEntry(new HistoryEntry(expression, evaluator.getValue()));

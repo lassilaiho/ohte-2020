@@ -13,15 +13,15 @@ public class Evaluator implements NodeVisitor {
         return value;
     }
 
-    private Map<String, Evaluatable> namedValues;
+    private Scope namedValues;
 
     /**
      * Constructs a new {@link Evaluator}.
      * 
      * @param initialValue the initial value of the constructor
-     * @param namedValues  the set of named values in scope
+     * @param namedValues  the current scope
      */
-    public Evaluator(double initialValue, Map<String, Evaluatable> namedValues) {
+    public Evaluator(double initialValue, Scope namedValues) {
         value = initialValue;
         this.namedValues = namedValues;
     }
@@ -33,16 +33,16 @@ public class Evaluator implements NodeVisitor {
 
     @Override
     public void visit(VariableNode node) {
-        var namedValue = resolveName(node.name);
+        var namedValue = namedValues.get(node.name);
         if (namedValue.getArgumentCount() != 0) {
-            throw new EvaluationException("variables cannot have arguments");
+            throw new EvaluationException(node.name + " is a function, not a variable");
         }
         value = namedValue.evaluate();
     }
 
     @Override
     public void visit(FunctionCallNode node) {
-        var namedValue = resolveName(node.function);
+        var namedValue = namedValues.get(node.function);
         if (namedValue.getArgumentCount() != node.arguments.size()) {
             throw new EvaluationException("wrong number of arguments: expected "
                 + namedValue.getArgumentCount() + ", got " + node.arguments.size());
@@ -81,7 +81,7 @@ public class Evaluator implements NodeVisitor {
     @Override
     public void visit(AssignmentNode node) {
         node.value.accept(this);
-        namedValues.put(node.name, new Constant(value));
+        namedValues.set(node.name, new Constant(value));
     }
 
     private double applyBinaryOperator(Operator operator, double left, double right) {
@@ -100,13 +100,5 @@ public class Evaluator implements NodeVisitor {
             default:
                 throw new EvaluationException("invalid binary operator: " + operator);
         }
-    }
-
-    private Evaluatable resolveName(String name) {
-        var namedValue = namedValues.get(name);
-        if (namedValue == null) {
-            throw new EvaluationException("undefined name: " + name);
-        }
-        return namedValue;
     }
 }
