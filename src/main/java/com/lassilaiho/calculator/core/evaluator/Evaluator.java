@@ -6,7 +6,7 @@ import com.lassilaiho.calculator.core.parser.*;
 /**
  * {@link Evaluator} is a visitor that evaluates {@link Expression Expressions}.
  */
-public class Evaluator implements ExpressionVisitor {
+public class Evaluator implements NodeVisitor {
     private double value = 0;
 
     public double getValue() {
@@ -76,6 +76,12 @@ public class Evaluator implements ExpressionVisitor {
         var right = new Evaluator(0, namedValues);
         node.right.accept(right);
         value = applyBinaryOperator(node.operator, left.value, right.value);
+    }
+
+    @Override
+    public void visit(AssignmentNode node) {
+        node.value.accept(this);
+        namedValues.put(node.name, new Constant(value));
     }
 
     private double applyBinaryOperator(Operator operator, double left, double right) {

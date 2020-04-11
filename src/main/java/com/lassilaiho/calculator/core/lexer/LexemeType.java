@@ -18,4 +18,5 @@ public enum LexemeType {
     /*** Value is of type {@link String}. */
     IDENTIFIER,
     COMMA,
+    ASSIGN,
 }

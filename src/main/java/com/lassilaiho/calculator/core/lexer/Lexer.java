@@ -60,6 +60,15 @@ public final class Lexer {
                 case ',':
                     result.add(new Lexeme(LexemeType.COMMA));
                     break;
+                case ':':
+                    var next = reader.read();
+                    if (next != '=') {
+                        throw new LexerException(
+                            "unexpected character: expected '=', found "
+                                + new String(Character.toChars(next)));
+                    }
+                    result.add(new Lexeme(LexemeType.ASSIGN));
+                    break;
                 default:
                     if (Character.isDigit(c)) {
                         unread(c);

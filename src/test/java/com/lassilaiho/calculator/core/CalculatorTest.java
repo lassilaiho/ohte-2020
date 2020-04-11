@@ -58,6 +58,17 @@ public class CalculatorTest {
         }
     }
 
+    @Test
+    public void variablesWork() {
+        assertEquals(1, calculator.calculate("x := 1").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("x").doubleValue(), delta);
+        assertEquals(2, calculator.calculate("x := 2").doubleValue(), delta);
+        assertEquals(2, calculator.calculate("x").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("y := 1").doubleValue(), delta);
+        assertEquals(2, calculator.calculate("x").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("y").doubleValue(), delta);
+    }
+
     @Test(expected = CalculatorException.class)
     public void throwsCalculationErrorOnInvalidInput() {
         calculator.calculate("3+(2-4");

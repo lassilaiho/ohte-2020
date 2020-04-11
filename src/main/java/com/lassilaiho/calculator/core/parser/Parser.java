@@ -37,7 +37,17 @@ public class Parser {
         if (current > 0 || peek().type == LexemeType.EOF) {
             return null;
         }
+        if (peek().type == LexemeType.IDENTIFIER && peek(1).type == LexemeType.ASSIGN) {
+            return parseStatement();
+        }
         return parseExpression();
+    }
+
+    private Statement parseStatement() {
+        var name = (String) parseToken(LexemeType.IDENTIFIER).value;
+        parseToken(LexemeType.ASSIGN);
+        var value = parseExpression();
+        return new AssignmentNode(name, value);
     }
 
     private Expression parseExpression() {

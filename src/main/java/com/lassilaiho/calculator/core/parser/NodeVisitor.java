@@ -38,4 +38,11 @@ public interface NodeVisitor {
      * @param node binary expression node to visit
      */
     void visit(BinaryExpression node);
+
+    /**
+     * Visit an assignment node.
+     * 
+     * @param node assignment node to visit
+     */
+    void visit(AssignmentNode node);
 }
