@@ -119,8 +119,17 @@ public final class Lexer {
                 builder.append(Character.toChars(character));
             } else {
                 unread(character);
-                return new Lexeme(LexemeType.IDENTIFIER, builder.toString());
+                return matchKeywordOrIdentifier(builder.toString());
             }
+        }
+    }
+
+    private Lexeme matchKeywordOrIdentifier(String text) {
+        switch (text) {
+            case "delete":
+                return new Lexeme(LexemeType.DELETE);
+            default:
+                return new Lexeme(LexemeType.IDENTIFIER, text);
         }
     }
 

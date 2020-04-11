@@ -19,4 +19,5 @@ public enum LexemeType {
     IDENTIFIER,
     COMMA,
     ASSIGN,
+    DELETE,
 }

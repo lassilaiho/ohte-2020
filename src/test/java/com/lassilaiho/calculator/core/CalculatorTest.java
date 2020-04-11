@@ -89,6 +89,20 @@ public class CalculatorTest {
     }
 
     @Test(expected = CalculatorException.class)
+    public void deletingVariableWorks() {
+        assertEquals(1, calculator.calculate("x:=1").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("x").doubleValue(), delta);
+        assertEquals(0, calculator.calculate("delete x").doubleValue(), delta);
+        calculator.calculate("x");
+    }
+
+    @Test()
+    public void deleteDoesNotDeleteImmutable() {
+        assertEquals(0, calculator.calculate("delete pi").doubleValue(), delta);
+        assertEquals(Math.PI, calculator.calculate("pi").doubleValue(), delta);
+    }
+
+    @Test(expected = CalculatorException.class)
     public void throwsCalculationErrorOnInvalidInput() {
         calculator.calculate("3+(2-4");
     }

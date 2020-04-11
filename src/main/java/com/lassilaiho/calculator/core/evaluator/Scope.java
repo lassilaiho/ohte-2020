@@ -88,6 +88,22 @@ public class Scope {
         values.remove(values.size() - 1);
     }
 
+    /**
+     * Deletes all mutable bindings of name up to the first immutable binding. Does nothing if name is
+     * undefined.
+     * 
+     * @param name the name to delete
+     */
+    public void deleteAllMutable(String name) {
+        var values = valueMap.get(name);
+        if (values == null) {
+            return;
+        }
+        while (!values.isEmpty() && values.get(values.size() - 1).mutable) {
+            values.remove(values.size() - 1);
+        }
+    }
+
     private class NamedValue {
         public Evaluatable value;
         public boolean mutable = false;

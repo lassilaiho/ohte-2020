@@ -52,4 +52,11 @@ public interface NodeVisitor {
      * @param node function definition node to visit
      */
     void visit(FunctionDefinitionNode node);
+
+    /**
+     * Visit a delete node.
+     * 
+     * @param node delete node to visit
+     */
+    void visit(DeleteNode node);
 }

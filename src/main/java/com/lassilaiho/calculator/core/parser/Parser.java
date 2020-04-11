@@ -46,6 +46,9 @@ public class Parser {
     }
 
     private Node tryParseStatement() {
+        if (peek().type == LexemeType.DELETE) {
+            return parseDeleteStatement();
+        }
         if (!lookAheadForLexeme(LexemeType.ASSIGN)) {
             return null;
         }
@@ -59,6 +62,17 @@ public class Parser {
         parseToken(LexemeType.ASSIGN);
         var body = parseExpression();
         return new FunctionDefinitionNode(name, parameters, body);
+    }
+
+    private Statement parseDeleteStatement() {
+        parseToken(LexemeType.DELETE);
+        var names = new ArrayList<String>();
+        names.add(parseIdentifier());
+        while (peek().type == LexemeType.COMMA) {
+            advance();
+            names.add(parseIdentifier());
+        }
+        return new DeleteNode(names);
     }
 
     private Expression parseExpression() {

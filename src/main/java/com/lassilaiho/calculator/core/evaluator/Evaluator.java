@@ -104,6 +104,13 @@ public class Evaluator implements NodeVisitor {
         namedValues.set(node.name, new Function(node.parameters.size(), evaluate));
     }
 
+    @Override
+    public void visit(DeleteNode node) {
+        for (var name : node.names) {
+            namedValues.deleteAllMutable(name);
+        }
+    }
+
     private double applyBinaryOperator(Operator operator, double left, double right) {
         switch (operator) {
             case ADD:
