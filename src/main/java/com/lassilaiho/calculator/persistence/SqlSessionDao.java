@@ -8,6 +8,7 @@ import java.sql.SQLException;
  */
 public class SqlSessionDao implements SessionDao {
     private SqlHistoryDao historyDao;
+    private SqlNamedValueDao namedValueDao;
 
     /**
      * Constructs a new {@link SqlSessionDao} backed by a SQL database.
@@ -16,6 +17,7 @@ public class SqlSessionDao implements SessionDao {
      */
     public SqlSessionDao(Connection connection) {
         historyDao = new SqlHistoryDao(connection);
+        namedValueDao = new SqlNamedValueDao(connection);
     }
 
     /**
@@ -26,6 +28,7 @@ public class SqlSessionDao implements SessionDao {
      */
     public void initializeDatabase() throws SQLException {
         historyDao.initializeDatabase();
+        namedValueDao.initializeDatabase();
     }
 
     /**
@@ -37,10 +40,16 @@ public class SqlSessionDao implements SessionDao {
      */
     public void switchDatabase(Connection newConnection) throws SQLException {
         historyDao.switchDatabase(newConnection);
+        namedValueDao.switchDatabase(newConnection);
     }
 
     @Override
     public HistoryDao history() {
         return historyDao;
+    }
+
+    @Override
+    public NamedValueDao namedValues() {
+        return namedValueDao;
     }
 }

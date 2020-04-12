@@ -1,6 +1,5 @@
 package com.lassilaiho.calculator.core.evaluator;
 
-import com.lassilaiho.calculator.core.evaluator.Function.NAryFunction;
 import com.lassilaiho.calculator.core.parser.*;
 
 /**
@@ -86,22 +85,7 @@ public class Evaluator implements NodeVisitor {
 
     @Override
     public void visit(FunctionDefinitionNode node) {
-        NAryFunction evaluate = args -> {
-            var evaluator = new Evaluator(0, namedValues);
-            for (var i = 0; i < args.length; i++) {
-                evaluator.namedValues
-                    .declare(node.parameters.get(i), new Constant(args[i]), false);
-            }
-            try {
-                node.body.accept(evaluator);
-            } finally {
-                for (var i = 0; i < args.length; i++) {
-                    evaluator.namedValues.delete(node.parameters.get(i));
-                }
-            }
-            return evaluator.value;
-        };
-        namedValues.set(node.name, new Function(node.parameters.size(), evaluate));
+        namedValues.set(node.name, Function.ofDefinition(node, namedValues));
     }
 
     @Override

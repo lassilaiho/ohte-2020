@@ -10,4 +10,11 @@ public interface SessionDao {
      * @return an object implementing {@link HistoryDao}
      */
     HistoryDao history();
+
+    /**
+     * Returns a {@link NamedValueDao} that can be used to access stored named values.
+     * 
+     * @return an object implementing {@link NamedValueDao}
+     */
+    NamedValueDao namedValues();
 }

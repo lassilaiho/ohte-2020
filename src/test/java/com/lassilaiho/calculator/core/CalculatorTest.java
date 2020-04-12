@@ -67,6 +67,10 @@ public class CalculatorTest {
         assertEquals(1, calculator.calculate("y := 1").doubleValue(), delta);
         assertEquals(2, calculator.calculate("x").doubleValue(), delta);
         assertEquals(1, calculator.calculate("y").doubleValue(), delta);
+
+        calculator = new Calculator(sessionDao);
+        assertEquals(2, calculator.calculate("x").doubleValue(), delta);
+        assertEquals(1, calculator.calculate("y").doubleValue(), delta);
     }
 
     @Test
@@ -80,6 +84,10 @@ public class CalculatorTest {
         assertEquals(5, calculator.calculate("add(1, 4)").doubleValue(), delta);
 
         assertEquals(0, calculator.calculate("zero() := 0").doubleValue(), delta);
+        assertEquals(0, calculator.calculate("zero()").doubleValue(), delta);
+
+        calculator = new Calculator(sessionDao);
+        assertEquals(4, calculator.calculate("square(2)").doubleValue(), delta);
         assertEquals(0, calculator.calculate("zero()").doubleValue(), delta);
     }
 

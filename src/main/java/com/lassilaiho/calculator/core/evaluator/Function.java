@@ -2,6 +2,7 @@ package com.lassilaiho.calculator.core.evaluator;
 
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
+import com.lassilaiho.calculator.core.parser.FunctionDefinitionNode;
 
 /**
  * {@link Function} is used to wrap a function with an implementation of {@link Evaluatable}.
@@ -39,6 +40,31 @@ public class Function implements Evaluatable {
      */
     public static Function binary(DoubleBinaryOperator function) {
         return new Function(2, args -> function.applyAsDouble(args[0], args[1]));
+    }
+
+    /**
+     * Returns a new {@link Function} constructed from node.
+     * 
+     * @param  node  the node to use
+     * @param  scope the global scope the function is defined in
+     * @return       the constructed {@link Function} instance
+     */
+    public static Function ofDefinition(FunctionDefinitionNode node, Scope scope) {
+        NAryFunction evaluate = args -> {
+            var evaluator = new Evaluator(0, scope);
+            for (var i = 0; i < args.length; i++) {
+                scope.declare(node.parameters.get(i), new Constant(args[i]), false);
+            }
+            try {
+                node.body.accept(evaluator);
+            } finally {
+                for (var i = 0; i < args.length; i++) {
+                    scope.delete(node.parameters.get(i));
+                }
+            }
+            return evaluator.getValue();
+        };
+        return new Function(node.parameters.size(), evaluate);
     }
 
     @Override

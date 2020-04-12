@@ -50,6 +50,7 @@ public class Calculator {
     public Calculator(SessionDao sessionDao) {
         this.sessionDao = sessionDao;
         scope = Scope.ofMap(BUILTIN_NAMED_VALUES);
+        loadNamedValuesFromDao();
     }
 
     /**
@@ -64,6 +65,7 @@ public class Calculator {
     public Calculator(SessionDao sessionDao, Scope globalScope) {
         this.sessionDao = sessionDao;
         scope = globalScope;
+        loadNamedValuesFromDao();
     }
 
     /**
@@ -101,9 +103,7 @@ public class Calculator {
      */
     public Number calculate(String expression) throws CalculatorException {
         try {
-            var lexer = new Lexer(new StringReader(expression));
-            var parser = new Parser(lexer.lex());
-            var parsedNode = parser.parseNode();
+            var parsedNode = parseInput(expression);
             if (parsedNode == null) {
                 return null;
             }
@@ -111,15 +111,53 @@ public class Calculator {
             parsedNode.accept(evaluator);
             sessionDao.history()
                 .addEntry(new HistoryEntry(expression, evaluator.getValue()));
+            persistOperation(parsedNode, evaluator.getValue());
             return evaluator.getValue();
         } catch (LexerException | ParserException | EvaluationException exception) {
             throw new CalculatorException(exception.getMessage(), exception);
-        } catch (IOException exception) {
+        }
+    }
+
+    private void loadNamedValuesFromDao() {
+        for (var entry : sessionDao.namedValues().getAllValues()) {
+            if (entry.parameters.isEmpty()) {
+                var constant = new Constant(Double.valueOf(entry.value));
+                scope.declare(entry.name, constant, true);
+            } else {
+                var definition = new FunctionDefinitionNode(entry.name, entry.parameters,
+                    (Expression) parseInput(entry.value));
+                scope.declare(entry.name, Function.ofDefinition(definition, scope), true);
+            }
+        }
+    }
+
+    private Node parseInput(String input) {
+        try {
+            var lexemes = new Lexer(new StringReader(input)).lex();
+            return new Parser(lexemes).parseNode();
+        } catch (IOException e) {
             // The only source of IOExceptions in the method is StringReader,
             // which throws if it is read from after closing it. The reader is
             // never closed, so this should never happen.
-            throw new RuntimeException(
-                "An IOException occurred. This is a bug in this library.", exception);
+            throw new AssertionError(
+                "An IOException occurred. This is a bug in this library.", e);
+        }
+    }
+
+    private void persistOperation(Node node, double value) {
+        if (node instanceof AssignmentNode) {
+            sessionDao.namedValues().setValue(
+                ((AssignmentNode) node).name,
+                List.of(),
+                Double.toString(value));
+        } else if (node instanceof FunctionDefinitionNode) {
+            var definition = (FunctionDefinitionNode) node;
+            sessionDao.namedValues().setValue(
+                definition.name,
+                definition.parameters,
+                definition.body.toString());
+        } else if (node instanceof DeleteNode) {
+            ((DeleteNode) node).names.forEach(sessionDao.namedValues()::clearValue);
         }
     }
 }
