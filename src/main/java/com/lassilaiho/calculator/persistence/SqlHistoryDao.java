@@ -42,13 +42,17 @@ public final class SqlHistoryDao implements HistoryDao {
      * @throws SQLException  thrown if the operation fails
      */
     public void switchDatabase(Connection newConnection) throws SQLException {
-        var tempDao = new SqlHistoryDao(newConnection);
-        tempDao.initializeDatabase();
-        tempDao.removeAllEntries();
-        for (var entry : getAllEntries()) {
-            tempDao.addEntry(entry);
-        }
-        connection = newConnection;
+        Transaction.with(connection, () -> {
+            Transaction.with(newConnection, () -> {
+                var tempDao = new SqlHistoryDao(newConnection);
+                tempDao.initializeDatabase();
+                tempDao.removeAllEntries();
+                for (var entry : getAllEntries()) {
+                    tempDao.addEntry(entry);
+                }
+                connection = newConnection;
+            });
+        });
     }
 
     @Override
