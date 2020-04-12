@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Manages a {@link SessionDao} implementation which uses an SQLite database as the backing store.
  */
-public class SqliteSessionManager {
+public final class SqliteSessionManager {
     private String driver;
     private Connection connection;
     private SqlSessionDao sessionDao;

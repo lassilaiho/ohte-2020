@@ -7,7 +7,7 @@ import com.lassilaiho.calculator.core.parser.FunctionDefinitionNode;
 /**
  * {@link Function} is used to wrap a function with an implementation of {@link Evaluatable}.
  */
-public class Function implements Evaluatable {
+public final class Function implements Evaluatable {
     private final int argumentCount;
     private final NAryFunction function;
 

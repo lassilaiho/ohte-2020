@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * {@link DeleteNode} deletes variable or function bindings.
  */
-public class DeleteNode implements Statement {
+public final class DeleteNode implements Statement {
     public final List<String> names;
 
     /**

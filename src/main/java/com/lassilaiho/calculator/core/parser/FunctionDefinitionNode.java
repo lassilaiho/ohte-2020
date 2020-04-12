@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * A function definition node.
  */
-public class FunctionDefinitionNode implements Statement {
+public final class FunctionDefinitionNode implements Statement {
     public final String name;
     public final List<String> parameters;
     public final Expression body;

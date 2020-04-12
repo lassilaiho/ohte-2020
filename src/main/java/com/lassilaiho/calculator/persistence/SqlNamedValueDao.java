@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Implements {@link NamedValueDao} using a SQL database.
  */
-public class SqlNamedValueDao implements NamedValueDao {
+public final class SqlNamedValueDao implements NamedValueDao {
     private Connection connection;
 
     /**

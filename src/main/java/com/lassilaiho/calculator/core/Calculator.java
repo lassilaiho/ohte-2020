@@ -14,7 +14,7 @@ import static java.util.Map.entry;
 /**
  * {@link Calculator} evaluates mathematical expressions.
  */
-public class Calculator {
+public final class Calculator {
     private SessionDao sessionDao;
     private Scope scope;
 

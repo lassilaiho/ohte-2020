@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Provides utility functions for SQL transactions.
  */
-public class Transaction {
+public final class Transaction {
     /**
      * Runs action in a transaction. The transaction is committed automatically if action doesn't throw
      * an exception. If it does, the transaction is rolled back.

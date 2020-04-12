@@ -13,7 +13,7 @@ import org.apache.commons.cli.*;
 /**
  * The main class of the application.
  */
-public class App extends Application {
+public final class App extends Application {
     public static SqliteSessionManager sessionManager =
         new SqliteSessionManager("jdbc:sqlite");
 

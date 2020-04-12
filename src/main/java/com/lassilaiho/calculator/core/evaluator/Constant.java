@@ -4,7 +4,7 @@ package com.lassilaiho.calculator.core.evaluator;
  * {@link Constant} is an immutable container for a single value. Evaluating a {@link Constant}
  * requires no arguments and returns the value of the constant.
  */
-public class Constant implements Evaluatable {
+public final class Constant implements Evaluatable {
     private final double value;
 
     /**

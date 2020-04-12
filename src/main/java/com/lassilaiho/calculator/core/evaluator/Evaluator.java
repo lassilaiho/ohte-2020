@@ -5,7 +5,7 @@ import com.lassilaiho.calculator.core.parser.*;
 /**
  * {@link Evaluator} is a visitor that evaluates {@link Expression Expressions}.
  */
-public class Evaluator implements NodeVisitor {
+public final class Evaluator implements NodeVisitor {
     private double value = 0;
 
     public double getValue() {

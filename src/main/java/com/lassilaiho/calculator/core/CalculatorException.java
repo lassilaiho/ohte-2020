@@ -3,7 +3,7 @@ package com.lassilaiho.calculator.core;
 /**
  * Signals an error occurred during calculation.
  */
-public class CalculatorException extends RuntimeException {
+public final class CalculatorException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**

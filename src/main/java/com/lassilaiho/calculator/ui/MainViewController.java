@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class MainViewController {
+public final class MainViewController {
     private Calculator calculator;
 
     @FXML

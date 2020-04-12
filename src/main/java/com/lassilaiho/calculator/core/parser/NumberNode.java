@@ -3,7 +3,7 @@ package com.lassilaiho.calculator.core.parser;
 /**
  * {@link NumberNode} is a number node.
  */
-public class NumberNode implements Expression {
+public final class NumberNode implements Expression {
     public final double value;
 
     /**

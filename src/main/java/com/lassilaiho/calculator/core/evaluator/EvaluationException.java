@@ -3,7 +3,7 @@ package com.lassilaiho.calculator.core.evaluator;
 /**
  * {@link EvaluationException} signals an error occured during the evaluation of an expression.
  */
-public class EvaluationException extends RuntimeException {
+public final class EvaluationException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**

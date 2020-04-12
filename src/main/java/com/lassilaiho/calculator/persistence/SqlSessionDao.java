@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Implements {@link SessionDao} using a SQL database.
  */
-public class SqlSessionDao implements SessionDao {
+public final class SqlSessionDao implements SessionDao {
     private SqlHistoryDao historyDao;
     private SqlNamedValueDao namedValueDao;
 

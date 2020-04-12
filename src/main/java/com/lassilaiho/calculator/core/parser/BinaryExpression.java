@@ -3,7 +3,7 @@ package com.lassilaiho.calculator.core.parser;
 /**
  * {@link BinaryExpression} is a binary expression node.
  */
-public class BinaryExpression implements Expression {
+public final class BinaryExpression implements Expression {
     public final Operator operator;
     public final Expression left, right;
 

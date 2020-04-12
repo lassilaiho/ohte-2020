@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * {@link Scope} maps names to values.
  */
-public class Scope {
+public final class Scope {
     private HashMap<String, ArrayList<NamedValue>> valueMap = new HashMap<>();
 
     /**

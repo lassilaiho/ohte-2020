@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 /**
  * {@link FunctionCallNode} is a function call node.
  */
-public class FunctionCallNode implements Expression {
+public final class FunctionCallNode implements Expression {
     public final String function;
     /**
      * The arguments of the function call. Modifying the argument list is undefined behavior.

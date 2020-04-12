@@ -3,7 +3,7 @@ package com.lassilaiho.calculator.core.parser;
 /**
  * An assignment node.
  */
-public class AssignmentNode implements Statement {
+public final class AssignmentNode implements Statement {
     public final String name;
     public final Expression value;
 

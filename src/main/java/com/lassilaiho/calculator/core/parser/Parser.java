@@ -11,7 +11,7 @@ import com.lassilaiho.calculator.core.lexer.*;
  * Parsers are single-use objects. To parse another expression, construct a new {2link Parser}
  * object.
  */
-public class Parser {
+public final class Parser {
     private final List<Lexeme> lexemes;
     /**
      * Current index to {@link #lexemes}.
