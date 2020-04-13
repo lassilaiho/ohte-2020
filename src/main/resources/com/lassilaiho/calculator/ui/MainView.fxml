@@ -74,6 +74,7 @@
             <VBox prefHeight="200.0" prefWidth="150.0">
                <children>
                   <ListView fx:id="catalogView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="searchInput" promptText="Search Catalog" />
                </children>
             </VBox>
          </children>

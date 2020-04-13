@@ -7,6 +7,7 @@ import com.lassilaiho.calculator.core.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -41,7 +42,11 @@ public final class MainViewController {
     @FXML
     private ListView<String> catalogView;
 
+    @FXML
+    private TextField searchInput;
+
     private ObservableList<String> catalogEntries = FXCollections.observableArrayList();
+    private FilteredList<String> filteredCatalogEntries;
 
     @FXML
     private void initialize() throws SQLException {
@@ -55,7 +60,11 @@ public final class MainViewController {
             App.updateWindowTitle();
         });
         updateCatalog();
-        catalogView.setItems(catalogEntries.sorted());
+        filteredCatalogEntries = catalogEntries.filtered(x -> true);
+        catalogView.setItems(filteredCatalogEntries.sorted());
+        searchInput.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCatalogEntries.setPredicate(x -> x.contains(newValue));
+        });
     }
 
     @FXML
