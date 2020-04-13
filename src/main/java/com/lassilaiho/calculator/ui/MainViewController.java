@@ -5,10 +5,13 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import com.lassilaiho.calculator.core.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -36,6 +39,11 @@ public final class MainViewController {
     private Text errorDisplay;
 
     @FXML
+    private ListView<String> catalogView;
+
+    private ObservableList<String> catalogEntries = FXCollections.observableArrayList();
+
+    @FXML
     private void initialize() throws SQLException {
         handleUncaughtException(() -> {
             calculator = new Calculator(App.sessionManager.getSession());
@@ -46,6 +54,8 @@ public final class MainViewController {
             updateHistoryViewScrollPosition();
             App.updateWindowTitle();
         });
+        updateCatalog();
+        catalogView.setItems(catalogEntries.sorted());
     }
 
     @FXML
@@ -56,6 +66,7 @@ public final class MainViewController {
             if (value != null) {
                 addHistoryEntryRow(calculator.newestHistoryEntry());
                 updateHistoryViewScrollPosition();
+                updateCatalog();
             }
             errorDisplay.setText("");
         } catch (CalculatorException exception) {
@@ -196,5 +207,12 @@ public final class MainViewController {
     @FunctionalInterface
     private interface Action {
         void run() throws Exception;
+    }
+
+    private void updateCatalog() {
+        catalogEntries.clear();
+        for (var value : calculator.getScope()) {
+            catalogEntries.add(value.getName());
+        }
     }
 }

@@ -74,6 +74,15 @@ public final class Calculator {
     }
 
     /**
+     * Returns the {@link Scope} used by the calculator.
+     * 
+     * @return the scope
+     */
+    public Scope getScope() {
+        return scope;
+    }
+
+    /**
      * Calculates the value of expression. If the calculation succeeds, it is added to the history.
      * 
      * @param  expression          the expression to calculate

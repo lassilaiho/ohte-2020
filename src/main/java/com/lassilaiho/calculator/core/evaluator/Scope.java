@@ -2,12 +2,14 @@ package com.lassilaiho.calculator.core.evaluator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * {@link Scope} maps names to values.
  */
-public final class Scope {
+public final class Scope implements Iterable<Scope.NamedValue> {
     private HashMap<String, ArrayList<NamedValue>> valueMap = new HashMap<>();
 
     /**
@@ -50,7 +52,7 @@ public final class Scope {
             values = new ArrayList<>();
             valueMap.put(name, values);
         }
-        values.add(new NamedValue(value, mutable));
+        values.add(new NamedValue(name, value, mutable));
     }
 
     /**
@@ -68,7 +70,7 @@ public final class Scope {
             valueMap.put(name, values);
         }
         if (values.isEmpty()) {
-            values.add(new NamedValue(value, true));
+            values.add(new NamedValue(name, value, true));
         } else {
             values.get(values.size() - 1).assign(value);
         }
@@ -104,20 +106,77 @@ public final class Scope {
         }
     }
 
-    private class NamedValue {
-        public Evaluatable value;
-        public boolean mutable = false;
+    @Override
+    public Iterator<Scope.NamedValue> iterator() {
+        return new ScopeIterator();
+    }
 
-        public NamedValue(Evaluatable value, boolean mutable) {
+    /**
+     * A container for name-value pairs.
+     */
+    public static final class NamedValue {
+        private final String name;
+        private Evaluatable value;
+        private final boolean mutable;
+
+        public String getName() {
+            return name;
+        }
+
+        public Evaluatable getValue() {
+            return value;
+        }
+
+        public boolean getMutable() {
+            return mutable;
+        }
+
+        private NamedValue(String name, Evaluatable value, boolean mutable) {
+            this.name = name;
             this.value = value;
             this.mutable = mutable;
         }
 
-        public void assign(Evaluatable newValue) throws EvaluationException {
+        private void assign(Evaluatable newValue) throws EvaluationException {
             if (mutable) {
                 value = newValue;
             } else {
                 throw new EvaluationException("this name cannot be reassigned");
+            }
+        }
+    }
+
+    private final class ScopeIterator implements Iterator<NamedValue> {
+        private Iterator<ArrayList<NamedValue>> outer;
+        private NamedValue nextValue;
+
+        public ScopeIterator() {
+            outer = valueMap.values().iterator();
+            advance();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextValue != null;
+        }
+
+        @Override
+        public NamedValue next() {
+            if (nextValue == null) {
+                throw new NoSuchElementException();
+            }
+            var currentValue = nextValue;
+            advance();
+            return currentValue;
+        }
+
+        private void advance() {
+            nextValue = null;
+            while (nextValue == null && outer.hasNext()) {
+                var list = outer.next();
+                if (!list.isEmpty()) {
+                    nextValue = list.get(list.size() - 1);
+                }
             }
         }
     }
