@@ -26,6 +26,8 @@
 |              |         1 | user defined variables and functions |
 | 11.4.        |       4,5 | user defined variables and functions |
 | 12.4.        |         3 | user defined variables and functions |
+|              |       0,5 | catalog |
+| 13.4.        |         2 | catalog |
 | 20.4.        |         2 | sequence diagram |
 | 21.4.        |         2 | user manual |
 |              |       0,5 | refactoring |
@@ -33,4 +35,4 @@
 | 25.4.        |       2,5 | architecture description |
 | 26.4.        |         1 | architecture description |
 |              |       0,5 | minor improvements |
-| total        |      54,5 | |
+| total        |        57 | |
