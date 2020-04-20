@@ -1,0 +1,42 @@
+title Calculating "2+3"
+
+autoactivation on
+
+User->mainViewController:click calculate button
+    mainViewController->calculator:calculate("2+3")
+        calculator->*lexer:new Lexer(new StringReader("2+3"))
+        deactivate lexer
+        calculator->lexer:lex()
+        calculator<--lexer:lexemes
+        calculator->*parser:new Parser(lexemes)
+        deactivate parser
+        calculator->parser:parseExpression()
+            parser->*expression:<<create>>
+            deactivate expression
+        calculator<--parser:expression
+        calculator->*evaluator:new Evaluator(0, namedValues)
+        deactivate evaluator
+        calculator->expression:accept(evaluator)
+        calculator<--expression:
+        calculator->evaluator:getValue()
+        calculator<--evaluator:5.0
+        calculator->*entry:new HistoryEntry("2+3", 5.0)
+        deactivate entry
+        calculator->sessionDao:history()
+        calculator<--sessionDao:historyDao
+        calculator->historyDao:addEntry(entry)
+        calculator<--historyDao:
+        calculator->evaluator:getValue()
+        calculator<--evaluator:5.0
+    mainViewController<--calculator:5.0
+    destroy lexer
+    destroy parser
+    destroy expression
+    destroy evaluator
+    mainViewController->calculator:newestHistoryEntry()
+    mainViewController<--calculator:entry
+    mainViewController->mainViewController:addHistoryEntryRow(entry)
+    deactivate mainViewController
+    mainViewController->mainViewController:updateHistoryViewScrollPosition()
+    deactivate mainViewController
+User<--mainViewController:
