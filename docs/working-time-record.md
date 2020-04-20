@@ -23,5 +23,8 @@
 |  7.4. |  2,5 | class/package diagram |
 |  9.4. |    4 | session support |
 | 10.4. |    1 | refactoring |
+|       |    1 | user defined variables and functions |
+| 11.4. |  4,5 | user defined variables and functions |
+| 12.4. |    3 | user defined variables and functions |
 | 20.4. |    2 | sequence diagram |
-| total | 37,5 | |
+| total |   45 | |
