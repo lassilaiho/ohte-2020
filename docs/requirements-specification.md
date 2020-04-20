@@ -35,7 +35,7 @@ These features will be implemented if time permits.
 - [ ] searchable catalogue (functions, constants, variables)
 - [ ] user defined variables
 - [ ] user defined functions
-- [ ] sessions
-  - [ ] stores the calculation history and defined variables and functions
-  - [ ] can be saved to and restored from a file
+- [x] sessions
+  - [x] stores the calculation history and defined variables and functions
+  - [x] can be saved to and restored from a file
 - [ ] complex number support
