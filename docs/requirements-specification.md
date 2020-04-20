@@ -33,8 +33,8 @@ These features form the core of the application.
 These features will be implemented if time permits.
 
 - [ ] searchable catalogue (functions, constants, variables)
-- [ ] user defined variables
-- [ ] user defined functions
+- [x] user defined variables
+- [x] user defined functions
 - [x] sessions
   - [x] stores the calculation history and defined variables and functions
   - [x] can be saved to and restored from a file
