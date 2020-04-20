@@ -14,6 +14,10 @@ Helsinki.
 
 [Working time record](docs/working-time-record.md)
 
+## Releases
+
+[Week 5](https://github.com/lassilaiho/ot-calculator/releases/tag/week5)
+
 ## Commands
 
 ### Running the program
@@ -49,6 +53,7 @@ To generate JavaDoc documentation, run
 ```
 mvn javadoc:javadoc
 ```
+The documentation can be viewed by opening target/site/apidocs/index.html.
 
 ### Packaging
 
@@ -56,4 +61,4 @@ To generate a distributable JAR file, run
 ```
 mvn package
 ```
-The generated JAR file is located in target/calculator-\<version>.jar.
+The generated JAR file is located at target/calculator-\<version>.jar.
