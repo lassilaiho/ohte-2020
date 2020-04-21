@@ -37,16 +37,12 @@ public final class App extends Application {
         try {
             Class.forName("org.sqlite.JDBC");
 
-            var options = defineCliOptions();
-            var commandLine = new DefaultParser().parse(options, args);
-            if (commandLine.hasOption("help")) {
-                var formatter = new HelpFormatter();
-                formatter.printHelp("calculator [options]", options);
+            var argumentSet = ArgumentSet.parse(args);
+            if (argumentSet.getHelp()) {
+                argumentSet.printHelp();
                 return;
             }
-
-            defaultSessionFile =
-                commandLine.getOptionValue("default-session", "default.session");
+            defaultSessionFile = argumentSet.getDefaultSessionFile();
             sessionManager.openSession(defaultSessionFile);
             App.launch();
         } catch (ParseException | SQLException | IOException
@@ -56,17 +52,5 @@ public final class App extends Application {
         } finally {
             sessionManager.close();
         }
-    }
-
-    private static Options defineCliOptions() {
-        var options = new Options();
-        options.addOption(
-            Option.builder().longOpt("default-session").hasArg().type(String.class)
-                .desc("path to the default session file").argName("session file")
-                .numberOfArgs(1).build());
-        options.addOption(
-            Option.builder("h").longOpt("help").desc("display usage information")
-                .build());
-        return options;
     }
 }
