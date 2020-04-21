@@ -27,4 +27,5 @@
 | 11.4. |  4,5 | user defined variables and functions |
 | 12.4. |    3 | user defined variables and functions |
 | 20.4. |    2 | sequence diagram |
-| total |   45 | |
+| 21.4. |    2 | user manual |
+| total |   47 | |

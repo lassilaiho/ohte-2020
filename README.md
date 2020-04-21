@@ -8,6 +8,8 @@ Helsinki.
 
 ## Documentation
 
+[User manual](docs/user-manual.md)
+
 [Requirements specification](docs/requirements-specification.md)
 
 [Architecture description](docs/architecture.md)
