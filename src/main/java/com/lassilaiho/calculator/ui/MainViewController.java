@@ -7,6 +7,7 @@ import com.lassilaiho.calculator.core.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
@@ -113,21 +114,27 @@ public final class MainViewController {
 
     @FXML
     private void openSession() {
-        var selectedFile = createSessionFileChooser("Open Session File")
-            .showOpenDialog(App.scene.getWindow());
-        if (selectedFile != null) {
-            reinitialize(selectedFile.getAbsolutePath());
+        if (showConfirmDiscardUnsavedSessionDialog()) {
+            var selectedFile = createSessionFileChooser("Open Session File")
+                .showOpenDialog(App.scene.getWindow());
+            if (selectedFile != null) {
+                reinitialize(selectedFile.getAbsolutePath());
+            }
         }
     }
 
     @FXML
     private void openDefaultSession() {
-        reinitialize(App.defaultSessionFile);
+        if (showConfirmDiscardUnsavedSessionDialog()) {
+            reinitialize(App.defaultSessionFile);
+        }
     }
 
     @FXML
     private void createSession() {
-        reinitialize(":memory:");
+        if (showConfirmDiscardUnsavedSessionDialog()) {
+            reinitialize(":memory:");
+        }
     }
 
     private FileChooser createSessionFileChooser(String title) {
@@ -144,6 +151,18 @@ public final class MainViewController {
             App.sessionManager.openSession(newDatabase);
             initialize();
         });
+    }
+
+    private boolean showConfirmDiscardUnsavedSessionDialog() {
+        if (App.sessionManager.getCurrentPath() == null) {
+            var alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Discard current session");
+            alert.setHeaderText(
+                "Are you sure you want to discard the current unsaved session?");
+            var result = alert.showAndWait();
+            return result.isPresent() && result.get() == ButtonType.OK;
+        }
+        return true;
     }
 
     private void handleUncaughtException(Action action) {
