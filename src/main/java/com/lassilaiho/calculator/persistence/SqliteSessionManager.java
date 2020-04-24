@@ -14,6 +14,7 @@ public final class SqliteSessionManager {
     private String driver;
     private Connection connection;
     private SqlSessionDao sessionDao;
+    private String currentPath;
 
     /**
      * Returns the current active connection or null if no connection exists.
@@ -31,6 +32,19 @@ public final class SqliteSessionManager {
      */
     public SessionDao getSession() {
         return sessionDao;
+    }
+
+    /**
+     * Returns the path of the current session file or null if there is no active session.
+     * 
+     * @return the path or null
+     */
+    public String getCurrentPath() {
+        return currentPath;
+    }
+
+    private void setCurrentPath(String value) {
+        currentPath = ":memory:".equals(value) ? null : value;
     }
 
     /**
@@ -57,6 +71,7 @@ public final class SqliteSessionManager {
             close();
         } finally {
             connection = newConnection;
+            setCurrentPath(file);
             sessionDao = new SqlSessionDao(connection);
             sessionDao.initializeDatabase();
         }
@@ -94,6 +109,7 @@ public final class SqliteSessionManager {
                 closeConnection();
             } finally {
                 connection = newConnection;
+                setCurrentPath(file);
             }
         }
     }

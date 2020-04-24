@@ -43,6 +43,7 @@ public final class MainViewController {
                 addHistoryEntryRow(entry);
             }
             updateHistoryViewScrollPosition();
+            App.updateWindowTitle();
         });
     }
 
@@ -105,6 +106,7 @@ public final class MainViewController {
             var selectedFile = fileChooser.showSaveDialog(App.scene.getWindow());
             if (selectedFile != null) {
                 App.sessionManager.switchDatabase(selectedFile.getAbsolutePath());
+                App.updateWindowTitle();
             }
         });
     }

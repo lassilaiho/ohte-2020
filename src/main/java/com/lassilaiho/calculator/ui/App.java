@@ -18,14 +18,26 @@ public final class App extends Application {
         new SqliteSessionManager("jdbc:sqlite");
 
     public static Scene scene;
+    private static Stage stage;
 
     public static String defaultSessionFile = "default.session";
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
+        App.stage = stage;
         scene = new Scene(loadFXML("MainView"));
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void updateWindowTitle() {
+        var sessionName = sessionManager.getCurrentPath();
+        if (sessionName == null) {
+            sessionName = "New Session";
+        } else if (sessionName.equals(defaultSessionFile)) {
+            sessionName = "Default Session";
+        }
+        stage.setTitle("Calculator - " + sessionName);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
