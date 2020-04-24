@@ -29,4 +29,5 @@
 | 20.4.        |         2 | sequence diagram |
 | 21.4.        |         2 | user manual |
 |              |       0,5 | refactoring |
-| total        |      48,5 | |
+| 24.4.        |       2,5 | improve error handling and UI |
+| total        |        51 | |
