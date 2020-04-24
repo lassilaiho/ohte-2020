@@ -8,7 +8,16 @@ import com.lassilaiho.calculator.core.parser.*;
 public final class Evaluator implements NodeVisitor {
     private double value = 0;
 
-    public double getValue() {
+    /**
+     * Returns the current value of the evaluator.
+     * 
+     * @return                     the value
+     * @throws EvaluationException thrown if the current value is NaN
+     */
+    public double getValue() throws EvaluationException {
+        if (Double.isNaN(value)) {
+            throw new EvaluationException("calculation error");
+        }
         return value;
     }
 
