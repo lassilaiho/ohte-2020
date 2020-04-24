@@ -1,5 +1,7 @@
 package com.lassilaiho.calculator.ui;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import com.lassilaiho.calculator.core.*;
 import javafx.application.Platform;
@@ -8,9 +10,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -32,12 +36,14 @@ public final class MainViewController {
 
     @FXML
     private void initialize() throws SQLException {
-        calculator = new Calculator(App.sessionManager.getSession());
-        historyView.getChildren().clear();
-        for (var entry : calculator.getHistory()) {
-            addHistoryEntryRow(entry);
-        }
-        updateHistoryViewScrollPosition();
+        handleUncaughtException(() -> {
+            calculator = new Calculator(App.sessionManager.getSession());
+            historyView.getChildren().clear();
+            for (var entry : calculator.getHistory()) {
+                addHistoryEntryRow(entry);
+            }
+            updateHistoryViewScrollPosition();
+        });
     }
 
     @FXML
@@ -53,17 +59,8 @@ public final class MainViewController {
         } catch (CalculatorException exception) {
             errorDisplay.setText(exception.getMessage());
         } catch (Exception exception) {
-            exception.printStackTrace();
-            showErrorAlert(exception.getMessage());
+            showUncaughtErrorAlert(exception);
         }
-    }
-
-    private void showErrorAlert(String message) {
-        var alert = new Alert(AlertType.ERROR);
-        alert.setTitle("An error occurred");
-        alert.setHeaderText("An error occurred");
-        alert.setContentText(message);
-        alert.show();
     }
 
     private void addHistoryEntryRow(HistoryEntry entry) {
@@ -101,17 +98,19 @@ public final class MainViewController {
     }
 
     @FXML
-    private void saveSession() throws Exception {
-        var fileChooser = createSessionFileChooser("Save Session File");
-        fileChooser.initialFileNameProperty().set("current.session");
-        var selectedFile = fileChooser.showSaveDialog(App.scene.getWindow());
-        if (selectedFile != null) {
-            App.sessionManager.switchDatabase(selectedFile.getAbsolutePath());
-        }
+    private void saveSession() {
+        handleUncaughtException(() -> {
+            var fileChooser = createSessionFileChooser("Save Session File");
+            fileChooser.initialFileNameProperty().set("current.session");
+            var selectedFile = fileChooser.showSaveDialog(App.scene.getWindow());
+            if (selectedFile != null) {
+                App.sessionManager.switchDatabase(selectedFile.getAbsolutePath());
+            }
+        });
     }
 
     @FXML
-    private void openSession() throws Exception {
+    private void openSession() {
         var selectedFile = createSessionFileChooser("Open Session File")
             .showOpenDialog(App.scene.getWindow());
         if (selectedFile != null) {
@@ -120,12 +119,12 @@ public final class MainViewController {
     }
 
     @FXML
-    private void openDefaultSession() throws Exception {
+    private void openDefaultSession() {
         reinitialize(App.defaultSessionFile);
     }
 
     @FXML
-    private void createSession() throws Exception {
+    private void createSession() {
         reinitialize(":memory:");
     }
 
@@ -138,8 +137,43 @@ public final class MainViewController {
         return fileChooser;
     }
 
-    private void reinitialize(String newDatabase) throws Exception {
-        App.sessionManager.openSession(newDatabase);
-        initialize();
+    private void reinitialize(String newDatabase) {
+        handleUncaughtException(() -> {
+            App.sessionManager.openSession(newDatabase);
+            initialize();
+        });
+    }
+
+    private void handleUncaughtException(Action action) {
+        try {
+            action.run();
+        } catch (Exception e) {
+            showUncaughtErrorAlert(e);
+        }
+    }
+
+    private void showUncaughtErrorAlert(Throwable error) {
+        var errorText = new TextArea(stackTraceToString(error));
+        errorText.setEditable(false);
+        errorText.setWrapText(true);
+
+        var alert = new Alert(AlertType.ERROR);
+        alert.setTitle("An error occurred");
+        alert.setHeaderText("An error occurred");
+        alert.setContentText(error.getMessage());
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setExpandableContent(errorText);
+        alert.show();
+    }
+
+    private String stackTraceToString(Throwable error) {
+        var writer = new StringWriter();
+        error.printStackTrace(new PrintWriter(writer));
+        return writer.toString();
+    }
+
+    @FunctionalInterface
+    private interface Action {
+        void run() throws Exception;
     }
 }
