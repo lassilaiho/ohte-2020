@@ -8,7 +8,7 @@ import com.lassilaiho.calculator.core.lexer.*;
 /**
  * {@link Parser} parses a list of lexemes into an abstract syntax tree.
  *
- * Parsers are single-use objects. To parse another expression, construct a new {2link Parser}
+ * Parsers are single-use objects. To parse another expression, construct a new {@link Parser}
  * object.
  */
 public final class Parser {
