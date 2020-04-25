@@ -54,18 +54,18 @@ public final class Parser {
         }
         var name = parseIdentifier();
         if (peek().type == LexemeType.ASSIGN) {
-            parseToken(LexemeType.ASSIGN);
+            parseLexeme(LexemeType.ASSIGN);
             var value = parseExpression();
             return new AssignmentNode(name, value);
         }
         var parameters = parseList(this::parseIdentifier);
-        parseToken(LexemeType.ASSIGN);
+        parseLexeme(LexemeType.ASSIGN);
         var body = parseExpression();
         return new FunctionDefinitionNode(name, parameters, body);
     }
 
     private Statement parseDeleteStatement() {
-        parseToken(LexemeType.DELETE);
+        parseLexeme(LexemeType.DELETE);
         var names = new ArrayList<String>();
         names.add(parseIdentifier());
         while (peek().type == LexemeType.COMMA) {
@@ -156,9 +156,9 @@ public final class Parser {
     }
 
     private Expression parseSubExpression() {
-        parseToken(LexemeType.LEFT_PAREN);
+        parseLexeme(LexemeType.LEFT_PAREN);
         var subExpression = parseExpression();
-        parseToken(LexemeType.RIGHT_PAREN);
+        parseLexeme(LexemeType.RIGHT_PAREN);
         return subExpression;
     }
 
@@ -168,7 +168,7 @@ public final class Parser {
     }
 
     private <T> List<T> parseList(Supplier<T> elementParser) {
-        parseToken(LexemeType.LEFT_PAREN);
+        parseLexeme(LexemeType.LEFT_PAREN);
         var list = new ArrayList<T>();
         if (peek().type == LexemeType.RIGHT_PAREN) {
             advance();
@@ -187,10 +187,10 @@ public final class Parser {
     }
 
     private String parseIdentifier() {
-        return (String) parseToken(LexemeType.IDENTIFIER).value;
+        return (String) parseLexeme(LexemeType.IDENTIFIER).value;
     }
 
-    private Lexeme parseToken(LexemeType type) {
+    private Lexeme parseLexeme(LexemeType type) {
         var lexeme = peek();
         if (lexeme.type != type) {
             throwUnexpectedLexeme(type, lexeme.type);
