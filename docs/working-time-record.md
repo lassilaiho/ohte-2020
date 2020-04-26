@@ -32,4 +32,5 @@
 | 24.4.        |       2,5 | improve error handling and UI |
 | 25.4.        |       2,5 | architecture description |
 | 26.4.        |         1 | architecture description |
+|              |       0,5 | minor improvements |
 | total        |      54,5 | |
