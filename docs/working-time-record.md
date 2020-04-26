@@ -30,4 +30,6 @@
 | 21.4.        |         2 | user manual |
 |              |       0,5 | refactoring |
 | 24.4.        |       2,5 | improve error handling and UI |
-| total        |        51 | |
+| 25.4.        |       2,5 | architecture description |
+| 26.4.        |         1 | architecture description |
+| total        |      54,5 | |
