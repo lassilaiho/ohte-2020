@@ -17,6 +17,8 @@ public final class Evaluator implements NodeVisitor {
     public double getValue() throws EvaluationException {
         if (Double.isNaN(value)) {
             throw new EvaluationException("calculation error");
+        } else if (Double.isInfinite(value)) {
+            throw new EvaluationException("overflow error");
         }
         return value;
     }
