@@ -39,7 +39,7 @@ To generate a test coverage report, run
 ```
 mvn test jacoco:report
 ```
-The report can be viewed by opening target/site/jacoco/index.html.
+The report can be viewed by opening *target/site/jacoco/index.html*.
 
 ### Checkstyle
 
@@ -47,7 +47,7 @@ Checkstyle checks can be run with
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
-Results can be viewed by opening target/site/checkstyle.html.
+Results can be viewed by opening *target/site/checkstyle.html*.
 
 ### JavaDoc
 
@@ -55,7 +55,7 @@ To generate JavaDoc documentation, run
 ```
 mvn javadoc:javadoc
 ```
-The documentation can be viewed by opening target/site/apidocs/index.html.
+The documentation can be viewed by opening *target/site/apidocs/index.html*.
 
 ### Packaging
 
@@ -63,4 +63,4 @@ To generate a distributable JAR file, run
 ```
 mvn package
 ```
-The generated JAR file is located at target/calculator-\<version>.jar.
+The generated JAR file is located at *target/calculator-\<version>.jar*.
