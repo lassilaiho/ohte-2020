@@ -14,10 +14,10 @@ public final class ScopeIteratorTest {
     @Before
     public void setUp() {
         scope = new Scope();
-        scope.declare("x", new Constant(2), false);
-        scope.declare("y", new Constant(-1), false);
-        scope.declare("z", new Constant(0), false);
-        scope.declare("x", new Constant(5), false);
+        scope.declare("x", Function.constant(2), false);
+        scope.declare("y", Function.constant(-1), false);
+        scope.declare("z", Function.constant(0), false);
+        scope.declare("x", Function.constant(5), false);
         scope.delete("y");
     }
 

@@ -109,7 +109,7 @@ public final class Calculator {
     private void loadNamedValuesFromDao() {
         for (var entry : sessionDao.namedValues().getAllValues()) {
             if (entry.parameters.isEmpty()) {
-                var constant = new Constant(Double.valueOf(entry.value));
+                var constant = Function.constant(Double.valueOf(entry.value));
                 scope.declare(entry.name, constant, true);
             } else {
                 var definition = new FunctionDefinitionNode(entry.name, entry.parameters,

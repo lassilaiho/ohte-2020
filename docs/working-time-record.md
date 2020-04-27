@@ -35,4 +35,5 @@
 | 25.4.        |       2,5 | architecture description |
 | 26.4.        |         1 | architecture description |
 |              |       0,5 | minor improvements |
-| total        |        57 | |
+| 27.4.        |         1 | refactoring |
+| total        |        58 | |

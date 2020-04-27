@@ -23,6 +23,16 @@ public final class Function implements Evaluatable {
     }
 
     /**
+     * A helper function for constructing constant functions.
+     * 
+     * @param  value the value to return
+     * @return       the constructed {@link Function} instance
+     */
+    public static Function constant(double value) {
+        return new Function(0, args -> value);
+    }
+
+    /**
      * A helper function for constructing unary functions.
      * 
      * @param  function the function to wrap
@@ -53,7 +63,7 @@ public final class Function implements Evaluatable {
         NAryFunction evaluate = args -> {
             var evaluator = new Evaluator(0, scope);
             for (var i = 0; i < args.length; i++) {
-                scope.declare(node.parameters.get(i), new Constant(args[i]), false);
+                scope.declare(node.parameters.get(i), constant(args[i]), false);
             }
             try {
                 node.body.accept(evaluator);

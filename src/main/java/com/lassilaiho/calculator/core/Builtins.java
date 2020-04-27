@@ -2,16 +2,16 @@ package com.lassilaiho.calculator.core;
 
 import java.util.Map;
 import static java.util.Map.entry;
-import com.lassilaiho.calculator.core.evaluator.Constant;
 import com.lassilaiho.calculator.core.evaluator.Evaluatable;
 import com.lassilaiho.calculator.core.evaluator.EvaluationException;
 import static com.lassilaiho.calculator.core.evaluator.Function.binary;
+import static com.lassilaiho.calculator.core.evaluator.Function.constant;
 import static com.lassilaiho.calculator.core.evaluator.Function.unary;
 
 final class Builtins {
     public static final Map<String, Evaluatable> VALUES = Map.ofEntries(
-        entry("pi", new Constant(Math.PI)),
-        entry("e", new Constant(Math.exp(1))),
+        entry("pi", constant(Math.PI)),
+        entry("e", constant(Math.exp(1))),
         entry("sin", unary(Math::sin)),
         entry("cos", unary(Math::cos)),
         entry("tan", unary(Math::tan)),

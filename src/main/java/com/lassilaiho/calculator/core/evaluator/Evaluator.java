@@ -93,7 +93,7 @@ public final class Evaluator implements NodeVisitor {
     @Override
     public void visit(AssignmentNode node) {
         node.value.accept(this);
-        namedValues.set(node.name, new Constant(value));
+        namedValues.set(node.name, Function.constant(value));
     }
 
     @Override
