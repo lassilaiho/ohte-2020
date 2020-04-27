@@ -1,14 +1,13 @@
 package com.lassilaiho.calculator.core.parser;
 
 /**
- * {@link Operator} is a mathematical operator.
+ * {@link BinaryOperator} is a binary operator.
  */
-public enum Operator {
+public enum BinaryOperator {
     ADD,
     SUBTRACT,
     MULTIPLY,
-    DIVIDE,
-    NEGATE;
+    DIVIDE;
 
     /**
      * Returns the precedence of the operator.
@@ -23,10 +22,8 @@ public enum Operator {
             case MULTIPLY:
             case DIVIDE:
                 return 2;
-            case NEGATE:
-                return 3;
             default:
-                return -1;
+                throw new IllegalArgumentException("invalid binary operator: " + this);
         }
     }
 
@@ -45,14 +42,13 @@ public enum Operator {
             case ADD:
                 return "+";
             case SUBTRACT:
-            case NEGATE:
                 return "-";
             case MULTIPLY:
                 return "*";
             case DIVIDE:
                 return "/";
             default:
-                return "invalid";
+                throw new IllegalArgumentException("invalid binary operator: " + this);
         }
     }
 }

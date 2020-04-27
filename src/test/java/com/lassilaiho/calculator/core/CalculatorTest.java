@@ -47,7 +47,7 @@ public class CalculatorTest {
             new Pair<>("3--2", 5),
             new Pair<>("4+9/2*2+-23", -10),
             new Pair<>(" 2*pi", 2 * Math.PI),
-            new Pair<>("sqrt(2)", Math.sqrt(2)),
+            new Pair<>("-+-sqrt(2)", Math.sqrt(2)),
             new Pair<>("log2(64)", 6),
             new Pair<>("nroot(8, 3)", Math.cbrt(8)));
         for (var subtest : subtests) {

@@ -76,11 +76,11 @@ public final class Parser {
     }
 
     private Expression parseExpression() {
-        return parseBinaryExpression(Operator.MIN_PRECEDENCE);
+        return parseBinaryExpression(BinaryOperator.MIN_PRECEDENCE);
     }
 
     private Expression parseBinaryExpression(int precedence) {
-        if (precedence > Operator.MAX_PRECEDENCE) {
+        if (precedence > BinaryOperator.MAX_PRECEDENCE) {
             return parseUnaryExpression();
         }
         var left = parseBinaryExpression(precedence + 1);
@@ -94,7 +94,7 @@ public final class Parser {
         }
     }
 
-    private Operator parseBinaryOperator(int precedence) {
+    private BinaryOperator parseBinaryOperator(int precedence) {
         var operator = matchBinaryOperator(peek().type);
         if (operator != null && operator.precedence() == precedence) {
             advance();
@@ -103,35 +103,39 @@ public final class Parser {
         return null;
     }
 
-    private Operator matchBinaryOperator(LexemeType type) {
+    private BinaryOperator matchBinaryOperator(LexemeType type) {
         switch (type) {
             case PLUS:
-                return Operator.ADD;
+                return BinaryOperator.ADD;
             case MINUS:
-                return Operator.SUBTRACT;
+                return BinaryOperator.SUBTRACT;
             case ASTERISK:
-                return Operator.MULTIPLY;
+                return BinaryOperator.MULTIPLY;
             case SLASH:
-                return Operator.DIVIDE;
+                return BinaryOperator.DIVIDE;
             default:
                 return null;
         }
     }
 
     private Expression parseUnaryExpression() {
-        var operator = parseUnaryOperator();
+        var operator = matchUnaryOperator();
         if (operator == null) {
             return parseTerminal();
         }
+        advance();
         return new UnaryExpression(operator, parseUnaryExpression());
     }
 
-    private Operator parseUnaryOperator() {
-        if (peek().type == LexemeType.MINUS) {
-            advance();
-            return Operator.NEGATE;
+    private UnaryOperator matchUnaryOperator() {
+        switch (peek().type) {
+            case PLUS:
+                return UnaryOperator.PLUS;
+            case MINUS:
+                return UnaryOperator.NEGATE;
+            default:
+                return null;
         }
-        return null;
     }
 
     private Expression parseTerminal() {

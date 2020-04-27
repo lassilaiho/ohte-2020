@@ -4,7 +4,7 @@ package com.lassilaiho.calculator.core.parser;
  * {@link BinaryExpression} is a binary expression node.
  */
 public final class BinaryExpression implements Expression {
-    public final Operator operator;
+    public final BinaryOperator operator;
     public final Expression left, right;
 
     /**
@@ -14,7 +14,7 @@ public final class BinaryExpression implements Expression {
      * @param operator operator
      * @param right    right operand
      */
-    public BinaryExpression(Expression left, Operator operator, Expression right) {
+    public BinaryExpression(Expression left, BinaryOperator operator, Expression right) {
         this.operator = operator;
         this.left = left;
         this.right = right;

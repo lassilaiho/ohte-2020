@@ -71,6 +71,8 @@ public final class Evaluator implements NodeVisitor {
     public void visit(UnaryExpression node) {
         node.operand.accept(this);
         switch (node.operator) {
+            case PLUS:
+                break;
             case NEGATE:
                 value = -value;
                 break;
@@ -106,7 +108,8 @@ public final class Evaluator implements NodeVisitor {
         }
     }
 
-    private double applyBinaryOperator(Operator operator, double left, double right) {
+    private double applyBinaryOperator(BinaryOperator operator, double left,
+        double right) {
         switch (operator) {
             case ADD:
                 return left + right;

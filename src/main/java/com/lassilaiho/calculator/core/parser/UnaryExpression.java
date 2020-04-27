@@ -4,7 +4,7 @@ package com.lassilaiho.calculator.core.parser;
  * {@link UnaryExpression} is a binary expression node.
  */
 public final class UnaryExpression implements Expression {
-    public final Operator operator;
+    public final UnaryOperator operator;
     public final Expression operand;
 
     /**
@@ -13,7 +13,7 @@ public final class UnaryExpression implements Expression {
      * @param operator operator
      * @param operand  operand
      */
-    public UnaryExpression(Operator operator, Expression operand) {
+    public UnaryExpression(UnaryOperator operator, Expression operand) {
         this.operator = operator;
         this.operand = operand;
     }
