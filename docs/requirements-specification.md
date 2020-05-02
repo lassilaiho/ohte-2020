@@ -9,7 +9,7 @@ functions.
 
 ## UI sketch
 
-![UI sketch](./images/ui-sketch.png)
+![UI sketch](./images/ui-sketch.svg)
 
 ## Features
 
@@ -32,10 +32,9 @@ These features form the core of the application.
 
 These features will be implemented if time permits.
 
-- [ ] searchable catalogue (functions, constants, variables)
+- [x] searchable catalog (functions, constants, variables)
 - [x] user defined variables
 - [x] user defined functions
 - [x] sessions
   - [x] stores the calculation history and defined variables and functions
   - [x] can be saved to and restored from a file
-- [ ] complex number support
