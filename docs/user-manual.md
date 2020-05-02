@@ -14,7 +14,8 @@ where `[options]` is a list of optional command line options for the app. The
 available options are:
 - `--default-session <session file>`
   - Path to the default session file. Defaults to `default.session` in the
-    current working directory.
+    current working directory. The file and its parent directories are created
+    if necessary.
 - `-h`, `--help`
   - Display usage information.
 
@@ -30,6 +31,9 @@ clicking the *Clear Input* button.
 Calculation history is displayed at the center of the application window. The
 entries are ordered from oldest to newest. The history can be cleared by
 clicking the *Clear History* button.
+
+The catalog lists all available functions, constants and variables. The catalog
+can be searched by typing to the search field.
 
 ## Sessions
 
@@ -109,4 +113,4 @@ from a to z, digits from 0 to 9 as well as underscores. Valid names must not
 begin with a digit.
 
 
-[calculator.jar]: https://github.com/lassilaiho/ot-calculator/releases/download/week6/calculator.jar
+[calculator.jar]: https://github.com/lassilaiho/ot-calculator/releases/download/1.0.0/calculator.jar
