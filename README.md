@@ -14,6 +14,8 @@ Helsinki.
 
 [Architecture description](docs/architecture.md)
 
+[Testing](docs/testing.md)
+
 [Working time record](docs/working-time-record.md)
 
 ## Releases
