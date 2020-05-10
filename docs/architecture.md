@@ -132,7 +132,6 @@ CREATE TABLE named_value_param (
     named_value_id INTEGER NOT NULL REFERENCES named_value(id) ON DELETE CASCADE,
     name TEXT NOT NULL
 );
-CREATE INDEX ix_named_value_param_name ON named_value_param(name);
 ```
 
 ## Example operation: calculating "2+3"

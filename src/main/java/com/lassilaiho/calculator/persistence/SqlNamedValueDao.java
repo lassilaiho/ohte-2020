@@ -34,8 +34,6 @@ public final class SqlNamedValueDao implements NamedValueDao {
                     "CREATE TABLE IF NOT EXISTS named_value (id INTEGER PRIMARY KEY, name TEXT UNIQUE NOT NULL, body TEXT NOT NULL)");
                 statement.execute(
                     "CREATE TABLE IF NOT EXISTS named_value_param (named_value_id INTEGER NOT NULL REFERENCES named_value(id) ON DELETE CASCADE, name TEXT NOT NULL)");
-                statement.execute(
-                    "CREATE INDEX IF NOT EXISTS ix_named_value_param_name ON named_value_param(name)");
             }
         });
     }
