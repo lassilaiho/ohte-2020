@@ -1,10 +1,12 @@
 package com.lassilaiho.calculator.ui;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import com.lassilaiho.calculator.persistence.SqliteSessionManager;
@@ -38,6 +40,10 @@ public final class App extends Application {
             sessionName = "Default Session";
         }
         stage.setTitle("Calculator - " + sessionName);
+    }
+
+    public static void setOnCloseHandler(EventHandler<WindowEvent> handler) {
+        stage.setOnCloseRequest(handler);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

@@ -58,6 +58,11 @@ public final class MainViewController {
             }
             updateHistoryViewScrollPosition();
             App.updateWindowTitle();
+            App.setOnCloseHandler(event -> {
+                if (!showConfirmDiscardUnsavedSessionDialog()) {
+                    event.consume();
+                }
+            });
         });
         updateCatalog();
         filteredCatalogEntries = catalogEntries.filtered(x -> true);
@@ -116,7 +121,9 @@ public final class MainViewController {
 
     @FXML
     private void exitApplication() {
-        Platform.exit();
+        if (showConfirmDiscardUnsavedSessionDialog()) {
+            Platform.exit();
+        }
     }
 
     @FXML
