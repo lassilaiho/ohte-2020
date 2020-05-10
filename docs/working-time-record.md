@@ -37,4 +37,5 @@
 |              |       0,5 | minor improvements |
 | 27.4.        |         1 | refactoring |
 | 2.5.         |         1 | update documentation |
-| total        |        59 | |
+| 10.5.        |         1 | minor improvements, making sure everything works |
+| total        |      60,5 | |
