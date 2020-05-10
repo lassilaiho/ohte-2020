@@ -18,8 +18,7 @@ The UI is not automatically tested.
 
 ### Test coverage
 
-Most functionality (excluding the UI) is tested by automatic tests. Some
-relatively simple functionality, mostly `toString` methods, were untested.
+Most functionality (excluding the UI) is tested by automatic tests.
 
 ![Test coverage](images/test-coverage.png)
 
