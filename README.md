@@ -24,6 +24,8 @@ Helsinki.
 
 [Week 6](https://github.com/lassilaiho/ot-calculator/releases/tag/week6)
 
+[Final release](https://github.com/lassilaiho/ot-calculator/releases/tag/1.0.0)
+
 ## Commands
 
 ### Running the program
