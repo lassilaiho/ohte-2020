@@ -66,9 +66,9 @@
                            </opaqueInsets>
                         </TextField>
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#calculate" text="Calculate" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" />
-                        <Text fx:id="errorDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="      " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clearInput" text="Clear Input" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clearHistory" text="Clear History" GridPane.rowIndex="1" />
+                        <TextField fx:id="errorDisplay" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>

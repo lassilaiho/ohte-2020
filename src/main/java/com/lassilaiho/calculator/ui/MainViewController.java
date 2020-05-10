@@ -37,7 +37,7 @@ public final class MainViewController {
     private TextField expressionInput;
 
     @FXML
-    private Text errorDisplay;
+    private TextField errorDisplay;
 
     @FXML
     private ListView<String> catalogView;
